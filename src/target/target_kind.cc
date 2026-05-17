@@ -478,6 +478,12 @@ TVM_REGISTER_TARGET_KIND("hexagon", kDLHexagon)
     .set_default_keys({"hexagon", "cpu"});
 
 TVM_REGISTER_TARGET_KIND("ext_dev", kDLExtDev);
+// ============ 6678 ============
+TVM_REGISTER_TARGET_KIND("c6678", kDLExtDev)
+    .add_attr_option<int64_t>("max_num_cores", refl::DefaultValue(8))//8核
+    .add_attr_option<ffi::String>("6678") // 可以指定具体型号，如 "6678"
+    .set_default_keys({"dsp"})
+    .set_device_name("c6678");
 
 TVM_REGISTER_TARGET_KIND("composite", kDLCPU)  // line break
     .add_attr_option<ffi::Array<Target>>(
