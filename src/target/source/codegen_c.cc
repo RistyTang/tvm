@@ -76,7 +76,7 @@ void CodeGenC::ReserveKeywordsAsUnique() {
   name_supply_->ReserveName("union");
   name_supply_->ReserveName("return");
 }
-
+// 打印函数签名
 void CodeGenC::PrintFunctionSignature(const ffi::String& function_name, const PrimFunc& func,
                                       std::ostream& os) {
   PrintFuncPrefix(os);
@@ -131,7 +131,7 @@ void CodeGenC::PrintFunctionSignature(const ffi::String& function_name, const Pr
     }
   }
 }
-
+// 声明函数
 void CodeGenC::DeclareFunction(const GlobalVar& gvar, const PrimFunc& func) {
   if (internal_functions_.count(gvar)) {
     return;
@@ -159,7 +159,7 @@ void CodeGenC::DeclareFunction(const GlobalVar& gvar, const PrimFunc& func) {
   PrintFunctionSignature(function_name, func, fwd_decl_stream);
   fwd_decl_stream << ";\n";
 }
-
+// 获取函数名称
 ffi::String CodeGenC::GetFunctionName(const GlobalVar& gvar) {
   auto it = internal_functions_.find(gvar);
   TVM_FFI_ICHECK(it != internal_functions_.end())
@@ -167,7 +167,7 @@ ffi::String CodeGenC::GetFunctionName(const GlobalVar& gvar) {
       << ", but no function with this GlobalVar has been declared";
   return it->second;
 }
-
+// 添加函数
 void CodeGenC::AddFunction(const GlobalVar& gvar, const PrimFunc& f) {
   // If the function has already been forward-declared, this is a
   // no-op.
@@ -188,7 +188,7 @@ void CodeGenC::AddFunction(const GlobalVar& gvar, const PrimFunc& f) {
 }
 
 void CodeGenC::PrintFuncPrefix(std::ostream& os) {}
-
+// 打印额外属性
 void CodeGenC::PrintExtraAttrs(const PrimFunc& f, std::ostream& os) {}
 
 std::string CodeGenC::Finish() {
@@ -1169,7 +1169,7 @@ void CodeGenC::VisitStmt_(const AssertStmtNode* op) {
     stream << "assert(" << cond << ");\n";
   }
 }
-
+//for循环
 void CodeGenC::VisitStmt_(const ForNode* op) {
   std::string begin_str = PrintExpr(op->min);
   PrimExpr end = is_zero(op->min) ? op->extent : arith::Analyzer().Simplify(op->min + op->extent);
@@ -1192,7 +1192,7 @@ void CodeGenC::VisitStmt_(const ForNode* op) {
   PrintIndent();
   stream << "}\n";
 }
-
+//while循环
 void CodeGenC::VisitStmt_(const WhileNode* op) {
   PrintIndent();
   stream << "while (1) {\n";
@@ -1205,7 +1205,7 @@ void CodeGenC::VisitStmt_(const WhileNode* op) {
   PrintIndent();
   stream << "}\n";
 }
-
+//if语句
 void CodeGenC::VisitStmt_(const IfThenElseNode* op) {
   std::string cond = PrintExpr(op->condition);
   PrintIndent();
@@ -1228,13 +1228,13 @@ void CodeGenC::VisitStmt_(const IfThenElseNode* op) {
   PrintIndent();
   stream << "}\n";
 }
-
+//序列语句
 void CodeGenC::VisitStmt_(const SeqStmtNode* op) {
   for (Stmt stmt : op->seq) {
     PrintStmt(stmt);
   }
 }
-
+//评估语句
 void CodeGenC::VisitStmt_(const EvaluateNode* op) {
   if (is_const_int(op->value)) return;
   const CallNode* call = op->value.as<CallNode>();

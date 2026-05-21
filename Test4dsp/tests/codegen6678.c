@@ -1,19 +1,9 @@
-// tvm target: {"kind":"c","tag":"","keys":["cpu"]}
-#define TVM_EXPORTS
-#include "tvm/runtime/base.h"
-#include "tvm/runtime/c_backend_api.h"
-#include "tvm/ffi/c_api.h"
+// tvm target: {"kind":"c6678","tag":"","keys":["cpu"]}
 #include <math.h>
 #include <stdbool.h>
-void* __tvm_ffi__library_ctx = NULL;
-#ifdef __cplusplus
-extern "C"
-#endif
-TVM_DLL int32_t __tvm_ffi_main(void* self_handle, void* args, int32_t num_args, void* result);
-#ifdef __cplusplus
-extern "C"
-#endif
-TVM_DLL int32_t __tvm_ffi_main(void* self_handle, void* args, int32_t num_args, void* result) {
+#include <stdint.h>
+int32_t test_func(void* self_handle, void* args, int32_t num_args, void* result);
+int32_t test_func(void* self_handle, void* args, int32_t num_args, void* result) {
   if (!((num_args == 3))) {
     const char* __tvm_assert_parts[6] = {"Expected ", "3", " arguments", " when calling:\n  `", "main(A: Tensor([n], float32), B: Tensor([n], float32), C: Tensor([n], float32))", "`"};
     TVMFFIErrorSetRaisedFromCStrParts("TypeError", __tvm_assert_parts, 6);
@@ -187,7 +177,8 @@ TVM_DLL int32_t __tvm_ffi_main(void* self_handle, void* args, int32_t num_args, 
     TVMFFIErrorSetRaisedFromCStrParts("ValueError", __tvm_assert_parts, 8);
     return -1;
   }
-  for (int32_t i = 0; i < n; ++i) {
+  int32_t i;
+  for (i = 0; i < n; ++i) {
     ((float*)C)[i] = (((float*)A)[i] + ((float*)B)[i]);
   }
   return 0;

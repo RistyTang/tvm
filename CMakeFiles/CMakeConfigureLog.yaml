@@ -5817,3 +5817,1653 @@ events:
         - "/opt"
         - "/home/tangqingyun/miniconda3/envs/tvm_env"
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_46891/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_46891.dir/build.make CMakeFiles/cmTC_46891.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_46891.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_46891.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_46891.dir/build.make:81: CMakeFiles/cmTC_46891.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_46891/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_c9627/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_c9627.dir/build.make CMakeFiles/cmTC_c9627.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_c9627.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_c9627.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_c9627.dir/build.make:81: CMakeFiles/cmTC_c9627.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_c9627/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_973f9/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_973f9.dir/build.make CMakeFiles/cmTC_973f9.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_973f9.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_973f9.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_973f9.dir/build.make:81: CMakeFiles/cmTC_973f9.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_973f9/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_c9009/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_c9009.dir/build.make CMakeFiles/cmTC_c9009.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_c9009.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_c9009.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_c9009.dir/build.make:81: CMakeFiles/cmTC_c9009.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_c9009/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_9e8a2/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_9e8a2.dir/build.make CMakeFiles/cmTC_9e8a2.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_9e8a2.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_9e8a2.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_9e8a2.dir/build.make:81: CMakeFiles/cmTC_9e8a2.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_9e8a2/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_5f89d/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_5f89d.dir/build.make CMakeFiles/cmTC_5f89d.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_5f89d.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_5f89d.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_5f89d.dir/build.make:81: CMakeFiles/cmTC_5f89d.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_5f89d/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_73db8/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_73db8.dir/build.make CMakeFiles/cmTC_73db8.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_73db8.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_73db8.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_73db8.dir/build.make:81: CMakeFiles/cmTC_73db8.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_73db8/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_80380/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_80380.dir/build.make CMakeFiles/cmTC_80380.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_80380.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_80380.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_80380.dir/build.make:81: CMakeFiles/cmTC_80380.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_80380/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_957b8/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_957b8.dir/build.make CMakeFiles/cmTC_957b8.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_957b8.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_957b8.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_957b8.dir/build.make:81: CMakeFiles/cmTC_957b8.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_957b8/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_14bb4/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_14bb4.dir/build.make CMakeFiles/cmTC_14bb4.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_14bb4.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_14bb4.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_14bb4.dir/build.make:81: CMakeFiles/cmTC_14bb4.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_14bb4/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_59b07/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_59b07.dir/build.make CMakeFiles/cmTC_59b07.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_59b07.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_59b07.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_59b07.dir/build.make:81: CMakeFiles/cmTC_59b07.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_59b07/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_d79b8/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_d79b8.dir/build.make CMakeFiles/cmTC_d79b8.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_d79b8.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_d79b8.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_d79b8.dir/build.make:81: CMakeFiles/cmTC_d79b8.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_d79b8/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_3b5b1/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_3b5b1.dir/build.make CMakeFiles/cmTC_3b5b1.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_3b5b1.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_3b5b1.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_3b5b1.dir/build.make:81: CMakeFiles/cmTC_3b5b1.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_3b5b1/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_541f9/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_541f9.dir/build.make CMakeFiles/cmTC_541f9.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_541f9.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_541f9.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_541f9.dir/build.make:81: CMakeFiles/cmTC_541f9.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_541f9/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_539f9/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_539f9.dir/build.make CMakeFiles/cmTC_539f9.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_539f9.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_539f9.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_539f9.dir/build.make:81: CMakeFiles/cmTC_539f9.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_539f9/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_ea512/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_ea512.dir/build.make CMakeFiles/cmTC_ea512.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_ea512.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_ea512.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_ea512.dir/build.make:81: CMakeFiles/cmTC_ea512.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_ea512/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_1d8c0/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_1d8c0.dir/build.make CMakeFiles/cmTC_1d8c0.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_1d8c0.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_1d8c0.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_1d8c0.dir/build.make:81: CMakeFiles/cmTC_1d8c0.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_1d8c0/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_e910c/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_e910c.dir/build.make CMakeFiles/cmTC_e910c.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_e910c.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_e910c.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_e910c.dir/build.make:81: CMakeFiles/cmTC_e910c.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_e910c/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_a831d/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_a831d.dir/build.make CMakeFiles/cmTC_a831d.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_a831d.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_a831d.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_a831d.dir/build.make:81: CMakeFiles/cmTC_a831d.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_a831d/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_b23b7/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_b23b7.dir/build.make CMakeFiles/cmTC_b23b7.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_b23b7.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_b23b7.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_b23b7.dir/build.make:81: CMakeFiles/cmTC_b23b7.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_b23b7/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_eec9d/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_eec9d.dir/build.make CMakeFiles/cmTC_eec9d.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_eec9d.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_eec9d.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_eec9d.dir/build.make:81: CMakeFiles/cmTC_eec9d.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_eec9d/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_28493/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_28493.dir/build.make CMakeFiles/cmTC_28493.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_28493.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_28493.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_28493.dir/build.make:81: CMakeFiles/cmTC_28493.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_28493/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_85714/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_85714.dir/build.make CMakeFiles/cmTC_85714.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_85714.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_85714.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_85714.dir/build.make:81: CMakeFiles/cmTC_85714.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_85714/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_94d40/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_94d40.dir/build.make CMakeFiles/cmTC_94d40.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_94d40.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_94d40.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_94d40.dir/build.make:81: CMakeFiles/cmTC_94d40.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_94d40/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_1dc55/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_1dc55.dir/build.make CMakeFiles/cmTC_1dc55.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_1dc55.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_1dc55.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_1dc55.dir/build.make:81: CMakeFiles/cmTC_1dc55.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_1dc55/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_e9c5f/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_e9c5f.dir/build.make CMakeFiles/cmTC_e9c5f.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_e9c5f.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_e9c5f.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_e9c5f.dir/build.make:81: CMakeFiles/cmTC_e9c5f.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_e9c5f/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_589ad/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_589ad.dir/build.make CMakeFiles/cmTC_589ad.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_589ad.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_589ad.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_589ad.dir/build.make:81: CMakeFiles/cmTC_589ad.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_589ad/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_fdc07/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_fdc07.dir/build.make CMakeFiles/cmTC_fdc07.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_fdc07.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_fdc07.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_fdc07.dir/build.make:81: CMakeFiles/cmTC_fdc07.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_fdc07/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_ca268/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_ca268.dir/build.make CMakeFiles/cmTC_ca268.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_ca268.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_ca268.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_ca268.dir/build.make:81: CMakeFiles/cmTC_ca268.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_ca268/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_d476a/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_d476a.dir/build.make CMakeFiles/cmTC_d476a.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_d476a.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_d476a.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_d476a.dir/build.make:81: CMakeFiles/cmTC_d476a.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_d476a/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_3993e/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_3993e.dir/build.make CMakeFiles/cmTC_3993e.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_3993e.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_3993e.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_3993e.dir/build.make:81: CMakeFiles/cmTC_3993e.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_3993e/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_3a5df/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_3a5df.dir/build.make CMakeFiles/cmTC_3a5df.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_3a5df.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_3a5df.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_3a5df.dir/build.make:81: CMakeFiles/cmTC_3a5df.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_3a5df/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_d2121/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_d2121.dir/build.make CMakeFiles/cmTC_d2121.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_d2121.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_d2121.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_d2121.dir/build.make:81: CMakeFiles/cmTC_d2121.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_d2121/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_ab9c1/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_ab9c1.dir/build.make CMakeFiles/cmTC_ab9c1.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_ab9c1.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_ab9c1.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_ab9c1.dir/build.make:81: CMakeFiles/cmTC_ab9c1.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_ab9c1/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_386bf/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_386bf.dir/build.make CMakeFiles/cmTC_386bf.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_386bf.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_386bf.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_386bf.dir/build.make:81: CMakeFiles/cmTC_386bf.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_386bf/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_7d2d3/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_7d2d3.dir/build.make CMakeFiles/cmTC_7d2d3.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_7d2d3.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_7d2d3.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_7d2d3.dir/build.make:81: CMakeFiles/cmTC_7d2d3.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_7d2d3/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_7cdae/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_7cdae.dir/build.make CMakeFiles/cmTC_7cdae.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_7cdae.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_7cdae.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_7cdae.dir/build.make:81: CMakeFiles/cmTC_7cdae.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_7cdae/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_d63fa/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_d63fa.dir/build.make CMakeFiles/cmTC_d63fa.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_d63fa.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_d63fa.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_d63fa.dir/build.make:81: CMakeFiles/cmTC_d63fa.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_d63fa/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_b50ee/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_b50ee.dir/build.make CMakeFiles/cmTC_b50ee.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_b50ee.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_b50ee.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_b50ee.dir/build.make:81: CMakeFiles/cmTC_b50ee.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_b50ee/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_2ffbd/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_2ffbd.dir/build.make CMakeFiles/cmTC_2ffbd.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_2ffbd.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_2ffbd.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_2ffbd.dir/build.make:81: CMakeFiles/cmTC_2ffbd.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_2ffbd/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_9c1dd/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_9c1dd.dir/build.make CMakeFiles/cmTC_9c1dd.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_9c1dd.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_9c1dd.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_9c1dd.dir/build.make:81: CMakeFiles/cmTC_9c1dd.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_9c1dd/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_88e02/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_88e02.dir/build.make CMakeFiles/cmTC_88e02.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_88e02.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_88e02.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_88e02.dir/build.make:81: CMakeFiles/cmTC_88e02.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_88e02/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_19fcd/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_19fcd.dir/build.make CMakeFiles/cmTC_19fcd.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_19fcd.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_19fcd.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_19fcd.dir/build.make:81: CMakeFiles/cmTC_19fcd.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_19fcd/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_3728a/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_3728a.dir/build.make CMakeFiles/cmTC_3728a.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_3728a.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_3728a.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_3728a.dir/build.make:81: CMakeFiles/cmTC_3728a.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_3728a/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_3a11d/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_3a11d.dir/build.make CMakeFiles/cmTC_3a11d.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_3a11d.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_3a11d.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_3a11d.dir/build.make:81: CMakeFiles/cmTC_3a11d.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_3a11d/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_6aca5/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_6aca5.dir/build.make CMakeFiles/cmTC_6aca5.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_6aca5.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_6aca5.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_6aca5.dir/build.make:81: CMakeFiles/cmTC_6aca5.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_6aca5/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_419d1/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_419d1.dir/build.make CMakeFiles/cmTC_419d1.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_419d1.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_419d1.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_419d1.dir/build.make:81: CMakeFiles/cmTC_419d1.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_419d1/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_395da/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_395da.dir/build.make CMakeFiles/cmTC_395da.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_395da.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_395da.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_395da.dir/build.make:81: CMakeFiles/cmTC_395da.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_395da/fast] Error 2
+        
+      exitCode: 2
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:231 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_HEXAGON"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_e9685/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_e9685.dir/build.make CMakeFiles/cmTC_e9685.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_e9685.dir/test_for_hexagon.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_e9685.dir/test_for_hexagon.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_hexagon.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_e9685.dir/build.make:81: CMakeFiles/cmTC_e9685.dir/test_for_hexagon.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_e9685/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:249 (try_compile)"
+    directories:
+      source: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+      binary: "/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/home/tangqingyun/miniconda3/envs/tvm_env/lib -Wl,-rpath-link,/home/tangqingyun/miniconda3/envs/tvm_env/lib -L/home/tangqingyun/miniconda3/envs/tvm_env/lib"
+    buildResult:
+      variable: "BUILD_FOR_ANDROID"
+      cached: true
+      stdout: |
+        Change Dir: '/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /home/tangqingyun/miniconda3/envs/tvm_env/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_5bf80/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_5bf80.dir/build.make CMakeFiles/cmTC_5bf80.dir/build
+        make[1]: Entering directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_5bf80.dir/test_for_android.cc.o
+        /home/tangqingyun/miniconda3/envs/tvm_env/bin/x86_64-conda-linux-gnu-c++   -faligned-new -O2 -Wall -fPIC -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/tangqingyun/miniconda3/envs/tvm_env/include  -o CMakeFiles/cmTC_5bf80.dir/test_for_android.cc.o -c /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc
+        /home/tangqingyun/tvm/CMakeFiles/CMakeTmp/test_for_android.cc:2:2: error: #error 
+            2 | #error
+              |  ^~~~~
+        make[1]: *** [CMakeFiles/cmTC_5bf80.dir/build.make:81: CMakeFiles/cmTC_5bf80.dir/test_for_android.cc.o] Error 1
+        make[1]: Leaving directory '/data00/home/tangqingyun/tvm/CMakeFiles/CMakeFiles/CMakeTmp'
+        make: *** [Makefile:134: cmTC_5bf80/fast] Error 2
+        
+      exitCode: 2
+...

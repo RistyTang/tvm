@@ -349,6 +349,22 @@ TVM_REGISTER_TARGET_KIND("llvm", kDLCPU)
 //                     cl::desc("The cost threshold for loop unrolling"));
 // Hence the type is "uint".
 
+TVM_REGISTER_TARGET_KIND("c6678", kDLCPU)
+    .add_attr_option<ffi::String>("mcpu")
+    .add_attr_option<ffi::String>("march")
+    .add_attr_option<int64_t>("core_num")
+    .add_attr_option<int64_t>("l1_size")
+    .add_attr_option<int64_t>("l2_size")
+    .add_attr_option<int64_t>("smc_size")
+    .add_attr_option<int64_t>("dma_align_bytes")
+    .add_attr_option<int64_t>("dma_burst_bytes")
+    .add_attr_option<int64_t>("dma_max_transfer")
+    .add_attr_option<int64_t>("vector_bytes")
+    .add_attr_option<int64_t>("workspace-byte-alignment")
+    .add_attr_option<int64_t>("constants-byte-alignment")
+    .set_default_keys({"cpu"})
+    .set_target_canonicalizer(tvm::target::canonicalizer::llvm::Canonicalize);
+
 TVM_REGISTER_TARGET_KIND("c", kDLCPU)
     .add_attr_option<ffi::String>("mcpu")
     .add_attr_option<ffi::String>("march")
@@ -478,12 +494,7 @@ TVM_REGISTER_TARGET_KIND("hexagon", kDLHexagon)
     .set_default_keys({"hexagon", "cpu"});
 
 TVM_REGISTER_TARGET_KIND("ext_dev", kDLExtDev);
-// ============ 6678 ============
-TVM_REGISTER_TARGET_KIND("c6678", kDLExtDev)
-    .add_attr_option<int64_t>("max_num_cores", refl::DefaultValue(8))//8核
-    .add_attr_option<ffi::String>("6678") // 可以指定具体型号，如 "6678"
-    .set_default_keys({"dsp"})
-    .set_device_name("c6678");
+
 
 TVM_REGISTER_TARGET_KIND("composite", kDLCPU)  // line break
     .add_attr_option<ffi::Array<Target>>(

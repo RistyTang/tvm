@@ -221,9 +221,9 @@ CMakeFiles/tvm_runtime.dir/clean:
 # Target rules for target CMakeFiles/tvm_compiler.dir
 
 # All Build rule for target.
+CMakeFiles/tvm_compiler.dir/all: CMakeFiles/tvm_objs.dir/all
 CMakeFiles/tvm_compiler.dir/all: CMakeFiles/tvm_runtime.dir/all
 CMakeFiles/tvm_compiler.dir/all: 3rdparty/tvm-ffi/CMakeFiles/tvm_ffi_shared.dir/all
-CMakeFiles/tvm_compiler.dir/all: CMakeFiles/tvm_objs.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tvm_compiler.dir/build.make CMakeFiles/tvm_compiler.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tvm_compiler.dir/build.make CMakeFiles/tvm_compiler.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/tangqingyun/tvm/CMakeFiles --progress-num= "Built target tvm_compiler"

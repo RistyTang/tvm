@@ -10780,6 +10780,30 @@ src/target/source/codegen_c.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tvm_objs.dir/build.make CMakeFiles/tvm_objs.dir/src/target/source/codegen_c.cc.s
 .PHONY : src/target/source/codegen_c.cc.s
 
+src/target/source/codegen_c6678.o: src/target/source/codegen_c6678.cc.o
+.PHONY : src/target/source/codegen_c6678.o
+
+# target to build an object file
+src/target/source/codegen_c6678.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tvm_objs.dir/build.make CMakeFiles/tvm_objs.dir/src/target/source/codegen_c6678.cc.o
+.PHONY : src/target/source/codegen_c6678.cc.o
+
+src/target/source/codegen_c6678.i: src/target/source/codegen_c6678.cc.i
+.PHONY : src/target/source/codegen_c6678.i
+
+# target to preprocess a source file
+src/target/source/codegen_c6678.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tvm_objs.dir/build.make CMakeFiles/tvm_objs.dir/src/target/source/codegen_c6678.cc.i
+.PHONY : src/target/source/codegen_c6678.cc.i
+
+src/target/source/codegen_c6678.s: src/target/source/codegen_c6678.cc.s
+.PHONY : src/target/source/codegen_c6678.s
+
+# target to generate assembly for a file
+src/target/source/codegen_c6678.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tvm_objs.dir/build.make CMakeFiles/tvm_objs.dir/src/target/source/codegen_c6678.cc.s
+.PHONY : src/target/source/codegen_c6678.cc.s
+
 src/target/source/codegen_c_host.o: src/target/source/codegen_c_host.cc.o
 .PHONY : src/target/source/codegen_c_host.o
 
@@ -14369,6 +14393,9 @@ help:
 	@echo "... src/target/source/codegen_c.o"
 	@echo "... src/target/source/codegen_c.i"
 	@echo "... src/target/source/codegen_c.s"
+	@echo "... src/target/source/codegen_c6678.o"
+	@echo "... src/target/source/codegen_c6678.i"
+	@echo "... src/target/source/codegen_c6678.s"
 	@echo "... src/target/source/codegen_c_host.o"
 	@echo "... src/target/source/codegen_c_host.i"
 	@echo "... src/target/source/codegen_c_host.s"

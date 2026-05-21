@@ -525,6 +525,7 @@ endif()
 file(GLOB NEW_GLOB LIST_DIRECTORIES true "/home/tangqingyun/tvm/src/target/source/*.cc")
 set(OLD_GLOB
   "/home/tangqingyun/tvm/src/target/source/codegen_c.cc"
+  "/home/tangqingyun/tvm/src/target/source/codegen_c6678.cc"
   "/home/tangqingyun/tvm/src/target/source/codegen_c_host.cc"
   "/home/tangqingyun/tvm/src/target/source/codegen_params.cc"
   "/home/tangqingyun/tvm/src/target/source/codegen_source_base.cc"
@@ -1358,6 +1359,7 @@ set(OLD_GLOB
   "/home/tangqingyun/tvm/src/target/rocm/llvm/intrin_rule_rocm.cc"
   "/home/tangqingyun/tvm/src/target/rocm/rocm_fallback_module.cc"
   "/home/tangqingyun/tvm/src/target/source/codegen_c.cc"
+  "/home/tangqingyun/tvm/src/target/source/codegen_c6678.cc"
   "/home/tangqingyun/tvm/src/target/source/codegen_c_host.cc"
   "/home/tangqingyun/tvm/src/target/source/codegen_params.cc"
   "/home/tangqingyun/tvm/src/target/source/codegen_source_base.cc"
@@ -1699,6 +1701,7 @@ set(OLD_GLOB
   "/home/tangqingyun/tvm/src/target/opencl/opencl_fallback_module.h"
   "/home/tangqingyun/tvm/src/target/rocm/rocm_fallback_module.h"
   "/home/tangqingyun/tvm/src/target/source/codegen_c.h"
+  "/home/tangqingyun/tvm/src/target/source/codegen_c6678.h"
   "/home/tangqingyun/tvm/src/target/source/codegen_c_host.h"
   "/home/tangqingyun/tvm/src/target/source/codegen_params.h"
   "/home/tangqingyun/tvm/src/target/source/codegen_source_base.h"

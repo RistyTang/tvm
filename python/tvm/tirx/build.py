@@ -100,7 +100,7 @@ def split_host_device_mods(mod: IRModule) -> tuple[IRModule, dict[Target, IRModu
 
     def is_host_func(f):
         target = f.attrs.get("target", tvm.target.Target("llvm"))
-        return target.kind.name in ["llvm", "c"]
+        return target.kind.name in ["llvm", "c", "c6678"]
 
     host_mod = tvm.tirx.transform.Filter(is_host_func)(mod)
     device_mod = tvm.tirx.transform.Filter(lambda f: not is_host_func(f))(mod)
@@ -124,6 +124,7 @@ def codegen_build(mod: IRModule, target: Target) -> tvm.runtime.Module:
     if tvm.ir.transform.PassContext.current().config.get("tirx.disable_assert", False):
         mod = tvm.tirx.transform.SkipAssert()(mod)
     build_f_name = "target.build." + target.kind.name
+    print("CODEGEN BUILD CALLED WITH:", build_f_name)
     bf = tvm.get_global_func(build_f_name)
     if bf is None:
         raise ValueError(f"{build_f_name} is not enabled")
@@ -204,10 +205,14 @@ def build(
     if target is not None:
         if target.host is not None:
             target_host = target.host
-        elif (
-            tvm.device(target.kind.name, 0).dlpack_device_type() == tvm.cpu(0).dlpack_device_type()
-        ):
-            target_host = target
+        else:
+            try:
+                is_cpu = tvm.device(target.kind.name, 0).dlpack_device_type() == tvm.cpu(0).dlpack_device_type()
+            except ValueError:
+                is_cpu = target.kind.default_device_type == tvm.cpu(0).dlpack_device_type()
+            
+            if is_cpu:
+                target_host = target
     target_host = Target(target_host)
     target_to_bind = target_to_bind.with_host(target_host)
 
