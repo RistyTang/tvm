@@ -71,32 +71,38 @@ print(runtime_mod.inspect_source("c6678"))    # 一份 .c 源码字符串
 
 ---
 
-## 2. 当前能输出什么：bare-C 源码（2345 chars）
+## 2. 当前源码契约：bare-C + BSP ABI
 
-跑完 §1 的脚本，`runtime_mod.inspect_source("c6678")` 现在固定产出
-**2345 字符**的 c6678 C 源码（实测快照，由
-[`test_full_source_total_size_matches_baseline`](file:///home/tangqingyun/tvm/Test4dsp/tests/test_c6678_end_to_end.py#L181-L195)
-盯死，"零差分"防回归）。其要素如下：
+当前 c6678 源码链路已经按本轮 ABI/L2 约定改成：
+
+- 多核逻辑核 ID 统一走 `GetLogicCoreId(core_mask, DNUM)`；
+- `load_row_major_tile` 统一走 8 参数 BSP 签名；
+- `global.l2` staging 统一按 `l2_base_core0 + DNUM * l2_core_stride` 绑定到每核 L2，
+  不再把“L2 staging”表述成普通 C 栈数组语义。
+
+理想产物形态如下：
 
 ```
 void matmul_fp32(float* A, float* B, float* C, int32_t core_mask) {
-    if (GetCoreNum(core_mask) > 0 && c6678_get_core_id(core_mask) >= 0) {
-        float A_global_l2[32768];                 // L2 staging：A tile + B tile 合并
-        for (i_outer = c6678_get_core_id(core_mask);
-             i_outer < 4;
-             i_outer += GetCoreNum(core_mask)) {
+    if (GetCoreNum(core_mask) > 0 && GetLogicCoreId(core_mask, DNUM) >= 0) {
+        float* A_global_l2 = (float*)(0x10810000 + DNUM * 0x01000000);
+        for (i_outer = ... GetLogicCoreId(core_mask, DNUM) ... ) {
             for (j_outer ...) for (k_outer ...) {
                 load_row_major_tile((&(A[0])), (&(A_global_l2[0])),
-                                    ..., 32, 32, 128, 4, "global");
+                                    ..., 32, 32, 128, 4);
                 load_row_major_tile((&(B[0])), (&(A_global_l2[16384])),
-                                    ..., 32, 32, 128, 4, "global");
+                                    ..., 32, 32, 128, 4);
                 /* 内层 32×32×32 reduce-style matmul（serial 三层 for） */
             }
         }
     }
-    C6678E_SyncN(GetCoreNum(core_mask), c6678_get_core_id(core_mask));
+    C6678E_SyncN(GetCoreNum(core_mask), GetLogicCoreId(core_mask, DNUM));
 }
 ```
+
+注意：[`generated_c6678_matmul_via_build.c`](file:///home/tangqingyun/tvm/Test4dsp/tests/generated_c6678_matmul_via_build.c)
+已经在本轮重新生成，当前文件就是新的 ABI 事实源，可直接用来核对
+`GetLogicCoreId(core_mask, DNUM)`、8 参数 `load_row_major_tile` 与 per-core L2 指针绑定。
 
 直接观测到的 6 个特征（每一个都对应了一个已落地 pass）：
 
@@ -104,26 +110,21 @@ void matmul_fp32(float* A, float* B, float* C, int32_t core_mask) {
 |---|---|---|
 | `void matmul_fp32(float*, float*, float*, int32_t core_mask)` 入口 | `C6678LowerEntry` | A.7 ✅ |
 | `int32_t core_mask` 形参（未在 TVMScript 出现，pass 自动追加） | `C6678MulticoreLower` | A.8 ✅ |
-| `if (GetCoreNum > 0 && c6678_get_core_id >= 0) { for ... }` 多核分块 | `C6678MulticoreLower` | A.8 ✅ |
+| `if (GetCoreNum > 0 && GetLogicCoreId(core_mask, DNUM) >= 0) { for ... }` 多核分块 | `C6678MulticoreLower` + `CodeGenC6678` | A.8 ✅ |
 | `C6678E_SyncN(...)` 末尾同步 | `C6678MulticoreLower` | A.8 ✅ |
-| `float A_global_l2[32768]` L2 staging（A tile + B tile 合并） | `C6678AnnotateL2Alloc` + StorageRewrite | A.9 ✅ |
+| `float* A_global_l2 = (float*)(0x10810000 + DNUM * 0x01000000)` per-core L2 绑定 | `C6678AnnotateL2Alloc` + `CodeGenC6678` | A.9 ✅ |
 | `load_row_major_tile(&A[0], &A_global_l2[0], ...)` DMA 调用 | `C6678DMALower` | A.9 ✅ |
 
-**IR 层只生成"纯算术 + extern 调用"**：源码里完全不出现
-`DNUM`、`LL2_*_BASE`、`#include <78NE/initial.h>` 等 BSP 头宏 / 板上常量；
-所有平台细节封在 `extern` 函数后，BSP 工程链接此 `.c` 时按
-[`learning.md` §4.1.3 ABI 契约表](./learning.md#413-bsp-abi-契约已固化bsp-端必须实现)
-提供以下符号即可：
+**IR 层只保留纯算术与少量 BSP 符号**：本轮开始 `DNUM` 会作为硬件已知宏名原样出现在生成 C 中，用于表达每核 L2 基址和逻辑核 ID；其它平台细节仍通过 BSP `extern` 函数承载。BSP 工程链接此 `.c` 时按 [`learning.md` §4.1.3 ABI 契约表](./learning.md#413-bsp-abi-契约已固化bsp-端必须实现) 提供以下符号即可：
 
 ```c
 int32_t GetCoreNum(int32_t core_mask);
-int32_t c6678_get_core_id(int32_t core_mask);
+int32_t GetLogicCoreId(int32_t core_mask, int32_t core_id);
 void C6678E_SyncN(int32_t core_num, int32_t core_id);
-void load_row_major_tile(const void* src, void* dst,
+void load_row_major_tile(void* src_base, void* dst,
                          int32_t row0, int32_t col0,
                          int32_t rows, int32_t cols,
-                         int32_t src_ld, int32_t elem_bytes,
-                         const char* src_scope);
+                         int32_t src_ld, int32_t elem_bytes);
 ```
 
 ---
@@ -142,9 +143,9 @@ python <要跑的测试脚本路径>
 
 | 想看什么 | 跑哪个 |
 |---|---|
-| **端到端串一遍**（强烈推荐第一个看） | [`Test4dsp/tests/test_c6678_end_to_end.py`](file:///home/tangqingyun/tvm/Test4dsp/tests/test_c6678_end_to_end.py) —— 7 个用例覆盖 A.2 / A.3 / A.7 / A.8 / A.9 + 2345 chars 零差分快照 |
+| **端到端串一遍**（强烈推荐第一个看） | [`Test4dsp/tests/test_c6678_end_to_end.py`](file:///home/tangqingyun/tvm/Test4dsp/tests/test_c6678_end_to_end.py) —— 断言新 ABI：`GetLogicCoreId(core_mask, DNUM)`、8 参数 `load_row_major_tile`、per-core L2 指针 |
 | **想看 softmax 端到端**（PR-S2 phase A） | [`Test4dsp/generate_c6678_softmax_via_build.py`](file:///home/tangqingyun/tvm/Test4dsp/generate_c6678_softmax_via_build.py) → 落盘 [`tests/generated_c6678_softmax_via_build.c`](file:///home/tangqingyun/tvm/Test4dsp/tests/generated_c6678_softmax_via_build.c)（1925 chars） |
-| **softmax 形式化回归**（7 用例） | [`Test4dsp/tests/test_c6678_softmax_codegen.py`](file:///home/tangqingyun/tvm/Test4dsp/tests/test_c6678_softmax_codegen.py) —— 覆盖 bare-C 入口 / 多核派发+SyncN / `T_max/T_exp/T_sum` 栈数组 / 4 串行内层 / `expf(` 直降 / 1925 chars 零差分 |
+| **softmax 形式化回归**（7 用例） | [`Test4dsp/tests/test_c6678_softmax_codegen.py`](file:///home/tangqingyun/tvm/Test4dsp/tests/test_c6678_softmax_codegen.py) —— 覆盖 bare-C 入口 / 新多核 ABI / `T_max/T_exp/T_sum` 栈数组 / 4 串行内层 / `expf(` 直降 |
 | 纯 demo，能直接看到 .c 文件 | [`Test4dsp/generate_c6678_matmul_via_build.py`](file:///home/tangqingyun/tvm/Test4dsp/generate_c6678_matmul_via_build.py) —— 跑完会落盘 [`tests/generated_c6678_matmul_via_build.c`](file:///home/tangqingyun/tvm/Test4dsp/tests/generated_c6678_matmul_via_build.c) |
 | 字符串模板基线（旧路径，留作对照） | [`Test4dsp/generate_c6678_matmul.py`](file:///home/tangqingyun/tvm/Test4dsp/generate_c6678_matmul.py) → [`tests/generated_c6678_matmul_baseline.c`](file:///home/tangqingyun/tvm/Test4dsp/tests/generated_c6678_matmul_baseline.c) |
 | A.3 单 pass 单元测试 | [`Test4dsp/tests/test_c6678_dma_legalize.py`](file:///home/tangqingyun/tvm/Test4dsp/tests/test_c6678_dma_legalize.py) —— 6 用例：合法 / 非法 scope / 超容量 / 行对齐告警 / 幂等 / 非 c6678 跳过 |
@@ -201,7 +202,7 @@ python <要跑的测试脚本路径>
 5. **不需要操心 large alloca**：[`C6678AnnotateGlobalAlloc`](file:///home/tangqingyun/tvm/python/tvm/tirx/transform/c6678_dma_lower.py#L467) 已挂在主 pipeline，自动给所有 `scope='global'` 的 `AllocBuffer` 加 `disable_lower_builtin=True` 注解，绕过 c6678 bare-metal 没有 `device_id` 时 `LowerTVMBuiltin` 走 `TVMBackendAllocWorkspace` 的崩溃路径（参见 [`learning.md` §4.9.2](./learning.md#492-c6678-上-scopeglobal-大-alloc-必须打-disable_lower_builtin--true)）。
 6. **加冒烟测试**：仿 [`test_c6678_softmax_codegen.py`](file:///home/tangqingyun/tvm/Test4dsp/tests/test_c6678_softmax_codegen.py) 的 7 用例结构，写一个新算子 TVMScript 输入，断言出码里出现：
    * `void xxx_xxx(float*, float*, ..., int32_t core_mask)`；
-   * 多核派发 `if ((GetCoreNum > 0) && (c6678_get_core_id >= 0)) { for ... }`；
+   * 多核派发 `if ((GetCoreNum > 0) && (GetLogicCoreId(core_mask, DNUM) >= 0)) { for ... }`；
    * `C6678E_SyncN(...)` 收尾；
    * 中间 buffer 的栈数组（如 `T_xxx[N]`），且不出现 `TVMBackendAllocWorkspace`；
    * 出码字节数零差分快照。
@@ -236,6 +237,6 @@ runtime_mod = tvm.tirx.build(xxx_mod, target=target)
 
 ## 9. L2/DMA 分块当前状态
 
-当前已经完成 ElementGreaterEqual 的输入侧 DMA staging + 1D L2 compact：schedule 为 A/B 两个输入插入 `cache_read("global.l2")`，并通过 `c6678.dma_load="dma_trans"` 触发 `C6678DMALower`。该 pass 会生成带 tile offset 的 `dma_trans`，修正 tail tile size，并把 L2 buffer 访问改写成 tile-local index。当前 `N=262144` 回归中，A/B 两个 87040 元素 tile 会被 StorageRewrite 合并成 `float A_global_l2[174080]`，不再分配全量 `524288`。
+当前已经完成 ElementGreaterEqual 的输入侧 DMA staging + 1D L2 compact：schedule 为 A/B 两个输入插入 `cache_read("global.l2")`，并通过 `c6678.dma_load="dma_trans"` 触发 `C6678DMALower`。该 pass 会生成带 tile offset 的 `dma_trans`，修正 tail tile size，并把 L2 buffer 访问改写成 tile-local index。
 
-尚未完成的是更贴近 `examples.md` 的 BSP pointer-style L2 region planning：当前源码仍是 C 栈数组形式的 compact L2 storage，而不是显式 `get_l2_addr(core_id)` + 手动分区指针。输出 DMA store、broadcast/scalar GreaterEqual、softmax phase B 也仍待继续。
+本轮之后，文档和测试的统一目标不再是“缩小 C 栈数组”，而是“把 `global.l2` staging 绑定到 per-core L2 基址”。ElementGreaterEqual 的输出 DMA store、broadcast/scalar 分支与更彻底的 L2 区域规划仍待继续。

@@ -94,7 +94,27 @@ python /home/tangqingyun/tvm/Test4dsp/tests/test_c6678_storage_plan.py
 source /home/tangqingyun/miniconda3/etc/profile.d/conda.sh && conda activate tvm_env && python Test4dsp/tests/test_c6678_features.py && python Test4dsp/tests/test_c6678_dispatcher.py && python Test4dsp/tests/test_c6678_dma_lower.py && python Test4dsp/tests/test_c6678_end_to_end.py && python Test4dsp/tests/test_c6678_softmax_codegen.py && python Test4dsp/tests/test_c6678_greater_equal_codegen.py && python Test4dsp/tests/test_c6678_lstm_extern_codegen.py && python Test4dsp/tests/test_my_ops.py
 ```
 
-当前已验证：features/dispatcher/DMA lower failure/matmul 端到端/softmax/ElementGreaterEqual/LSTM extern/FFI demo 均通过。输出中可能出现 LLVM canonicalizer warning，原因是本地 TVM 未启用 LLVM target，和 c6678 路径本身无关。
+历史上已验证：features/dispatcher/DMA lower failure/matmul 端到端/softmax/ElementGreaterEqual/LSTM extern/FFI demo 均通过。输出中可能出现 LLVM canonicalizer warning，原因是本地 TVM 未启用 LLVM target，和 c6678 路径本身无关。
+
+### 1.5 本轮真实阻塞与闭环（2026-06-03）
+
+- 本轮已完成源码修改：`c6678_multicore_lower.py`、`c6678_dma_lower.py`、`c6678_dma_legalize.py`、`codegen_c6678.cc/.h`、`c6678_config.py`、`target_kind.cc` 以及相关测试已改到新 ABI 方向。
+- 目标 ABI 为：
+  - `GetLogicCoreId(core_mask, DNUM)`
+  - `load_row_major_tile(void* src_base, void* dst, int row0, int col0, int rows, int cols, int src_ld, int elem_size)`
+  - `float* A_global_l2 = (float*)(l2_base_core0 + DNUM * l2_core_stride)`
+- 中途确实遇到过终端执行工具异常：尝试运行 `python Test4dsp/generate_c6678_matmul_via_build.py` 与相关测试时，工具层一度返回 `unknown error: command 'icube.shellExec.runCommand' not found`。
+- 随后重新编译 `libtvm_compiler.so` 并恢复终端调用后，本轮闭环已完成：
+  1. `cmake --build . --parallel 4` 成功，`target_kind.cc` 与 `codegen_c6678.cc` 已重新链接进 `lib/libtvm_compiler.so`；
+  2. [`generated_c6678_matmul_via_build.c`](file:///home/tangqingyun/tvm/Test4dsp/tests/generated_c6678_matmul_via_build.c) 已重新生成，实测包含：
+     - `GetLogicCoreId(core_mask, DNUM)`
+     - `float* A_global_l2 = (float*)(276889600 + DNUM * 16777216);`
+     - 8 参数 `load_row_major_tile(...)`
+  3. 直接执行测试脚本已通过：
+     - [`test_c6678_end_to_end.py`](file:///home/tangqingyun/tvm/Test4dsp/tests/test_c6678_end_to_end.py)
+     - [`test_c6678_softmax_codegen.py`](file:///home/tangqingyun/tvm/Test4dsp/tests/test_c6678_softmax_codegen.py)
+     - [`test_c6678_greater_equal_codegen.py`](file:///home/tangqingyun/tvm/Test4dsp/tests/test_c6678_greater_equal_codegen.py)
+- `pytest` 入口仍会被 TVM testing plugin 的默认 target 探测卡住，因为当前构建未启用 `llvm`；这是测试框架环境问题，不是 c6678 lowering/codegen 回归。当前采用“直接执行脚本”的方式完成了功能验证。
 
 ---
 

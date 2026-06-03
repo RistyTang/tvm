@@ -353,8 +353,8 @@ TVM_REGISTER_TARGET_KIND("llvm", kDLCPU)
 // Hardware constants below mirror the assumptions documented in
 // `Test4dsp/learning.md` section 5 (project hardware & runtime assumptions).
 //
-//   - Per-core L2: 1MB window starting at 0x10800000 with a 0x01000000 stride
-//     (Core i base = 0x10800000 + i * 0x01000000).
+//   - Per-core usable L2: 0x000F0000 bytes starting at 0x10810000 with a
+//     0x01000000 stride (Core i base = 0x10810000 + i * 0x01000000).
 //   - Shared SMC : 0x0C000000 -> 0x0C7FFFFF (8MB).
 //   - DDR        : starts at 0x80000000, default window 0x80000000.
 //   - DMA        : synchronous `dma_trans` only, max single transfer = INT_MAX.
@@ -365,8 +365,8 @@ TVM_REGISTER_TARGET_KIND("c6678", kDLCPU)
     .add_attr_option<int64_t>("core_num", refl::DefaultValue(int64_t(8)))
     .add_attr_option<int64_t>("core_freq_mhz", refl::DefaultValue(int64_t(1250)))
     .add_attr_option<int64_t>("l1_size", refl::DefaultValue(int64_t(32 * 1024)))
-    .add_attr_option<int64_t>("l2_size", refl::DefaultValue(int64_t(1024 * 1024)))
-    .add_attr_option<int64_t>("l2_base_core0", refl::DefaultValue(int64_t(0x10800000)))
+    .add_attr_option<int64_t>("l2_size", refl::DefaultValue(int64_t(0x000F0000)))
+    .add_attr_option<int64_t>("l2_base_core0", refl::DefaultValue(int64_t(0x10810000)))
     .add_attr_option<int64_t>("l2_core_stride", refl::DefaultValue(int64_t(0x01000000)))
     .add_attr_option<int64_t>("smc_base", refl::DefaultValue(int64_t(0x0C000000)))
     .add_attr_option<int64_t>("smc_size", refl::DefaultValue(int64_t(0x00800000)))

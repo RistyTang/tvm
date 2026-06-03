@@ -71,8 +71,9 @@ from .function_pass import prim_func_pass
 
 # 与 ``C6678DMALower._build_dma_call`` 的 call_extern args[0]（fn_name）对齐。
 # 当前接纳两族：
-# * ``load_row_major_tile``：A.9 对 2D tile（matmul 输入分块）的搬运，10 args，
-#   带 ``src_scope`` StringImm；
+# * ``load_row_major_tile``：A.9 对 2D tile（matmul 输入分块）的搬运，9 args，
+#   对齐 BSP 签名 ``void load_row_major_tile(void* src_base, void* dst, int row0,
+#   int col0, int rows, int cols, int src_ld, int elem_size)``；
 # * ``dma_trans``：BSP 端 1D 字节连续搬运 wrapper（详见
 #   ``Test4dsp/examples.md`` 第 1~229 行），4 args，签名为
 #   ``void dma_trans(void* src, void* dst, int size)``，源/目的 scope 由
@@ -161,18 +162,17 @@ def _validate_load_row_major_tile(
             row0_expr, col0_expr,
             rows_expr, cols_expr,
             src_ld, elem_size,
-            tirx.StringImm(src_scope),
         )
 
     经过 ``tvm.tirx.op.call_extern`` 处理后，``Call.args`` 形态为
-    ``[fn_name, src_ptr, dst_ptr, row0, col0, rows, cols, src_ld, elem_size, src_scope]``，
-    即 1（fn name）+ 9（params）= **10** 个 args。
+    ``[fn_name, src_ptr, dst_ptr, row0, col0, rows, cols, src_ld, elem_size]``，
+    即 1（fn name）+ 8（params）= **9** 个 args。
     """
     args = list(call.args)
-    if len(args) != 10:
+    if len(args) != 9:
         raise ValueError(
-            f"[C6678DMALegalize] {func_name}: load_row_major_tile expects 10 call_extern "
-            f"args (fn_name + 9 params), got {len(args)}: {args}"
+            f"[C6678DMALegalize] {func_name}: load_row_major_tile expects 9 call_extern "
+            f"args (fn_name + 8 params), got {len(args)}: {args}"
         )
 
     # args[1..2]: src_ptr / dst_ptr —— 由 access_ptr 生成，不在此 pass 校验
@@ -180,21 +180,8 @@ def _validate_load_row_major_tile(
     cols = _try_static_int(args[6])
     src_ld = _try_static_int(args[7])
     elem_size = _try_static_int(args[8])
-    src_scope = _try_static_str(args[9])
 
-    # 1) scope 合法性（必须能静态拿到）
-    if src_scope is None:
-        raise ValueError(
-            f"[C6678DMALegalize] {func_name}: src_scope must be a static StringImm, "
-            f"got {args[9]!r}"
-        )
-    if src_scope not in _LEGAL_SCOPES:
-        raise ValueError(
-            f"[C6678DMALegalize] {func_name}: illegal src_scope {src_scope!r}; "
-            f"expected one of {sorted(_LEGAL_SCOPES)}"
-        )
-
-    # 2) 正数性（仅在静态时校验，动态 extent 留给运行时）
+    # 1) 正数性（仅在静态时校验，动态 extent 留给运行时）
     for name, value in (
         ("rows", rows),
         ("cols", cols),
@@ -209,7 +196,7 @@ def _validate_load_row_major_tile(
                 f"got {value}"
             )
 
-    # 3) 单次传输字节数上限
+    # 2) 单次传输字节数上限
     if rows is not None and cols is not None and elem_size is not None:
         bytes_total = rows * cols * elem_size
         if bytes_total > cfg.dma_max_transfer:
@@ -220,7 +207,7 @@ def _validate_load_row_major_tile(
                 f"{cfg.dma_max_transfer}; consider tile splitting"
             )
 
-    # 4) 行对齐建议（静态可计算时仅警告）
+    # 3) 行对齐建议（静态可计算时仅警告）
     if cols is not None and elem_size is not None:
         row_bytes = cols * elem_size
         align = cfg.dma_align_bytes

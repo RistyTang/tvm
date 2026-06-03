@@ -1,17 +1,13 @@
-// tvm target: {"kind":"c6678","tag":"","keys":["cpu"],"vector_bytes":32,"core_freq_mhz":1250,"l2_size":1048576,"l2_base_core0":276824064,"l2_core_stride":16777216,"core_num":8,"smc_base":201326592,"dma_align_bytes":64,"smc_size":8388608,"ddr_base":2147483648,"l1_size":32768,"dma_burst_bytes":64,"ddr_size":2147483648,"dma_max_transfer":2147483647}
+// tvm target: {"kind":"c6678","tag":"","keys":["cpu"],"vector_bytes":32,"core_freq_mhz":1250,"l2_size":983040,"l2_base_core0":276889600,"l2_core_stride":16777216,"core_num":8,"smc_base":201326592,"dma_align_bytes":64,"smc_size":8388608,"ddr_base":2147483648,"l1_size":32768,"dma_burst_bytes":64,"ddr_size":2147483648,"dma_max_transfer":2147483647}
 #include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <time.h>
-#include <csl/csl_cache.h>
-#include <csl_cacheAux.h>
 #include <tistdtypes.h>
 #include <inttypes.h>
 #include <stdbool.h>
 #include <78NE/initial.h>
 #include <78NE/DMA.h>
-#include <c_api.h>
 void matmul_fp32(float* A, float* B, float* C);
 void matmul_fp32(float* A, float* B, float* C) {
   int32_t i;

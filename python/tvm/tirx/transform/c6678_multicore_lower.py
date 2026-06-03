@@ -39,7 +39,7 @@
    .. code-block:: c
 
        int core_num = GetCoreNum(core_mask);
-       int core_id  = c6678_get_core_id(core_mask);
+       int core_id  = GetLogicCoreId(core_mask, DNUM);
        if (core_num > 0 && core_id >= 0) {
            int rows_per_core = EXTENT / core_num;
            int start = core_id * rows_per_core;
@@ -50,11 +50,9 @@
        }
        C6678E_SyncN(core_num, core_id);
 
-   ``GetCoreNum / c6678_get_core_id / C6678E_SyncN`` 通过 ``tvm.tirx.call_extern``
-   表达。其中 ``c6678_get_core_id`` 是 BSP ABI 的一部分（见 §4.8.1），等价于
-   ``GetLogicCoreId(core_mask, DNUM)``——用户的 BSP 需提供这个 inline wrapper，
-   屏蔽 ``DNUM`` 宏（IR 端没有对应表达）。这与 BSP 已经提供 ``C6678E_SyncN``
-   等接口的契约一致，**不需要改 codegen C++**。
+   ``GetCoreNum / GetLogicCoreId / C6678E_SyncN`` 通过 ``tvm.tirx.call_extern``
+   表达。其中 ``DNUM`` 作为硬件已知宏，由 `codegen_c6678` 识别后直接原样输出，
+   不需要新增函数形参。
 3. **守卫**：仅对 ``target.kind.name == "c6678"`` 的 PrimFunc 处理；幂等通过
    attrs ``"c6678.multicore_lowered" == True`` 标记防止重复执行；body 中没有
    ``ForKind.PARALLEL`` 时原样跳过。
@@ -131,9 +129,9 @@ def _build_multicore_body(parallel_for, core_mask_var):
     实现注意
     --------
     ``tirx`` 没有 ``LetStmt`` 形态（只有 PrimExpr 级别的 ``Let``，无法跨多语句
-    复用），因此本函数直接把 ``GetCoreNum / c6678_get_core_id`` 的 call_extern
-    内联到循环边界、guard 条件以及 SyncN 调用三个位置。``GetCoreNum / c6678_
-    get_core_id`` 是 BSP 纯函数，重复调用对功能与性能均无影响（codegen 后会
+    复用），因此本函数直接把 ``GetCoreNum / GetLogicCoreId`` 的 call_extern
+    内联到循环边界、guard 条件以及 SyncN 调用三个位置。``GetCoreNum /
+    GetLogicCoreId`` 是 BSP 纯函数，重复调用对功能与性能均无影响（codegen 后会
     形如 ``GetCoreNum(core_mask) > 0`` 这种字面量表达式）。后续 A.9 / A.10
     若需要 ``core_id`` 表达式，应通过 attrs ``c6678.multicore_lowered`` 判定
     并自行重新构造 call_extern，与本 pass 解耦。
@@ -146,10 +144,11 @@ def _build_multicore_body(parallel_for, core_mask_var):
     def _core_num():
         return tirx.call_extern("int32", "GetCoreNum", core_mask_var)
 
-    # call_extern("int32", "c6678_get_core_id", core_mask) -> BSP wrapper，
-    # 等价于 GetLogicCoreId(core_mask, DNUM)，由用户 BSP 头提供 inline 实现。
+    dnum_var = tirx.Var("DNUM", "int32")
+
+    # call_extern("int32", "GetLogicCoreId", core_mask, DNUM) -> 与用户约定一致。
     def _core_id():
-        return tirx.call_extern("int32", "c6678_get_core_id", core_mask_var)
+        return tirx.call_extern("int32", "GetLogicCoreId", core_mask_var, dnum_var)
 
     # 切片 [start, end)，与 generated_c6678_matmul.c 完全一致：
     #   rows_per_core = EXTENT / core_num

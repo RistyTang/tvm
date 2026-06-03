@@ -12,7 +12,7 @@
    * A.3 ``C6678DMALegalize``：对每条 DMA call 做静态合法性校验（只读）；
    * A.9 ``C6678AnnotateL2Alloc``：``scope="global.l2"`` AllocBuffer → ``"global"``；
    * A.7 ``C6678LowerEntry``：bare-C 入口签名 + 跳过 ``MakePackedAPI``；
-   * A.8 ``C6678MulticoreLower``：``ForKind.PARALLEL`` → ``GetCoreNum / c6678_get_core_id / C6678E_SyncN``；
+   * A.8 ``C6678MulticoreLower``：``ForKind.PARALLEL`` → ``GetCoreNum / GetLogicCoreId / C6678E_SyncN``；
 4. 输出 C 源码同时具备：bare-C 入口 / 多核派发 / SyncN 收尾 / L2 staging 缓冲 /
    ``load_row_major_tile`` DMA 调用 / 入参 ``int32_t core_mask``。
 
@@ -103,22 +103,22 @@ def test_a7_bare_c_entry_signature() -> None:
 
 
 def test_a8_multicore_dispatch_and_syncn() -> None:
-    """A.8：``ForKind.PARALLEL`` 已降为 ``GetCoreNum / c6678_get_core_id`` + 末尾 ``C6678E_SyncN``。"""
+    """A.8：``ForKind.PARALLEL`` 已降为 ``GetCoreNum / GetLogicCoreId`` + 末尾 ``C6678E_SyncN``。"""
     src = _build_and_get_source()
     _check("GetCoreNum(core_mask)" in src, "expect GetCoreNum(core_mask) in body")
     _check(
-        "c6678_get_core_id(core_mask)" in src,
-        "expect c6678_get_core_id(core_mask) in body",
+        "GetLogicCoreId(core_mask, DNUM)" in src,
+        "expect GetLogicCoreId(core_mask, DNUM) in body",
     )
     _check(
-        "C6678E_SyncN(GetCoreNum(core_mask), c6678_get_core_id(core_mask))" in src,
+        "C6678E_SyncN(GetCoreNum(core_mask), GetLogicCoreId(core_mask, DNUM))" in src,
         "expect SyncN at function tail",
     )
     print("[OK] A.8 multicore dispatch + C6678E_SyncN tail-sync emitted")
 
 
 def test_a9_dma_call_and_l2_staging() -> None:
-    """A.9 + A.10 step1：``load_row_major_tile`` 取代 staging copy；L2 staging 数组就地分配。"""
+    """A.9 + A.10 step1：``load_row_major_tile`` 取代 staging copy；L2 staging 绑定核心 L2。"""
     src = _build_and_get_source()
     _check(
         'load_row_major_tile((&(A[0])), (&(A_global_l2[0]))' in src,
@@ -129,10 +129,14 @@ def test_a9_dma_call_and_l2_staging() -> None:
         "expect DMA call for B → A_global_l2[16384] (StorageRewrite combined into single l2 buffer)",
     )
     _check(
-        "float A_global_l2[32768];" in src,
-        "expect A_global_l2 alloc combining 32x32 A tile + 32x32 B tile = 32768 fp32",
+        "float* A_global_l2 = (float*)(276889600 + DNUM * 16777216);" in src,
+        "expect A_global_l2 bound to per-core L2 base address",
     )
-    print("[OK] A.9 + A.10 step1 DMA tiles + 32768-fp32 L2 staging buffer emitted")
+    _check(
+        'load_row_major_tile((&(A[0])), (&(A_global_l2[0])), (ax0_0 * 32),' in src,
+        "expect load_row_major_tile to use the 8-parameter BSP signature",
+    )
+    print("[OK] A.9 + A.10 step1 DMA tiles + per-core L2 pointer emitted")
 
 
 def test_a3_dma_legalize_pass_runs_silently() -> None:
@@ -140,7 +144,7 @@ def test_a3_dma_legalize_pass_runs_silently() -> None:
 
     最强证据是：经过 ``tvm.tirx.build`` 完整流水线后，DMA call 的所有静态参数
     都满足 A.3 的校验维度——
-      * src_scope ∈ {global, global.l2, global.smc}：源码里 ``"global"``；
+      * ``load_row_major_tile`` 使用新的 8 参数 BSP 签名，不再把 ``src_scope`` 编进 C 调用；
       * rows / cols / src_ld / elem_size 都是正整数：源码里 ``32, 32, 128, 4``；
       * rows*cols*elem_size = 32*32*4 = 4096 字节，远 < dma_max_transfer (0x7FFFFFFF)；
       * cols*elem_size = 32*4 = 128 字节，是 dma_align_bytes=64 的整数倍。
@@ -149,14 +153,14 @@ def test_a3_dma_legalize_pass_runs_silently() -> None:
     本测试通过比对源码里出现的 DMA 参数，间接验证 A.3 已运行并放行。
     """
     src = _build_and_get_source()
-    # 每条 load_row_major_tile 都应是 32×32 fp32 tile（4096B）从 "global"（DDR）搬到 L2 staging
+    # 每条 load_row_major_tile 都应是 32×32 fp32 tile（4096B）搬到 L2 staging
     _check(
-        ', 32, 32, 128, 4, "global"' in src,
-        "expect DMA tile (rows=32 cols=32 src_ld=128 elem=4 scope=global) confirming A.3 passed",
+        ', 32, 32, 128, 4);' in src,
+        "expect DMA tile (rows=32 cols=32 src_ld=128 elem=4) confirming A.3 passed",
     )
     print(
         "[OK] A.3 C6678DMALegalize: every DMA call in pipeline satisfies "
-        "scope=global / rows*cols*elem=4096B / 128B row aligned"
+        "rows*cols*elem=4096B / 128B row aligned"
     )
 
 
@@ -174,17 +178,17 @@ def test_a2_storage_plan_attrs_visible() -> None:
 
 
 def test_full_source_total_size_matches_baseline() -> None:
-    """端到端零差分回归：scheduled 出码字节数应与 A.5 / A.3 落地后的快照一致（2345 chars）。
+    """端到端零差分回归：scheduled 出码字节数应与本轮 ABI/L2 修正后的快照一致（2283 chars）。
 
     一旦后续 pass 链路改动让出码字节数变化，这条用例会立刻报警。这是阻挡
     回归（unintended regression）的一道防线。
     """
     src = _build_and_get_source()
-    expected = 2345
+    expected = 2283
     _check(
         len(src) == expected,
-        f"expect scheduled c6678 source size to be {expected} chars (snapshot 2026-05-24 "
-        f"after A.3 landed), got {len(src)}",
+        f"expect scheduled c6678 source size to be {expected} chars (snapshot after "
+        f"GetLogicCoreId + per-core L2 pointer + 8-arg load_row_major_tile), got {len(src)}",
     )
     print(f"[OK] zero-diff: scheduled c6678 source = {expected} chars (snapshot match)")
 

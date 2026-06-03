@@ -49,6 +49,7 @@ import tvm
 from tvm import tirx
 from tvm.tirx import stmt_functor
 
+from ..c6678_config import from_target as _config_from_target
 from .function_pass import prim_func_pass
 
 
@@ -62,6 +63,9 @@ _DMA_LOAD_VALUE = "load_row_major_tile"
 _DMA_TRANS_VALUE = "dma_trans"
 _L2_SCOPE = "global.l2"
 _DISABLE_LOWER_BUILTIN_KEY = "disable_lower_builtin"
+_L2_STATIC_ALLOC_KEY = "c6678.l2_static_alloc"
+_L2_BASE_CORE0_KEY = "c6678.l2_base_core0"
+_L2_CORE_STRIDE_KEY = "c6678.l2_core_stride"
 
 
 @dataclass
@@ -184,8 +188,6 @@ def _build_dma_call(staging_realize, outer_for_ax0, outer_for_ax1):
     src_ld = src_buf.shape[-1]
 
     anns = dict(block.annotations) if block.annotations else {}
-    src_scope = str(anns.get(_DMA_SRC_SCOPE_KEY, "global"))
-
     elem_bytes = tvm.runtime.DataType(src_buf.dtype).bits // 8
     elem_size = tirx.IntImm("int32", elem_bytes)
 
@@ -212,7 +214,6 @@ def _build_dma_call(staging_realize, outer_for_ax0, outer_for_ax1):
         cols_expr,
         src_ld,
         elem_size,
-        tirx.StringImm(src_scope),
     )
     return tirx.Evaluate(call)
 
@@ -467,7 +468,7 @@ def _apply_dma_l2_compact(body, compact_infos):
     return new_body
 
 
-def _annotate_l2_alloc(body):
+def _annotate_l2_alloc(body, cfg):
     """把 buffer.scope() == "global.l2" 的 AllocBuffer 改写成 scope='global'。
 
     背景见模块 docstring + ``learning.md §4.8.3``：
@@ -524,6 +525,9 @@ def _annotate_l2_alloc(body):
         except AttributeError:
             old_anns = {}
         old_anns[_DISABLE_LOWER_BUILTIN_KEY] = tvm.runtime.convert(True)
+        old_anns[_L2_STATIC_ALLOC_KEY] = tvm.runtime.convert(True)
+        old_anns[_L2_BASE_CORE0_KEY] = tirx.IntImm("int32", cfg.l2_base_core0)
+        old_anns[_L2_CORE_STRIDE_KEY] = tirx.IntImm("int32", cfg.l2_core_stride)
         return tirx.AllocBuffer(new_buf, old_anns)
 
     new_body = stmt_functor.ir_transform(body, None, alloc_postorder)
@@ -607,7 +611,8 @@ class C6678AnnotateL2Alloc:
         if _has_attr_flag(func, "c6678.l2_alloc_annotated"):
             return func
 
-        new_body = _annotate_l2_alloc(func.body)
+        cfg = _config_from_target(func.attrs["target"])
+        new_body = _annotate_l2_alloc(func.body, cfg)
         new_func = tvm.tirx.PrimFunc(
             params=list(func.params),
             body=new_body,

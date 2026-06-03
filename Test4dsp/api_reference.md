@@ -32,8 +32,8 @@
 | `core_num` | `8` | 6678 核心总数 |
 | `core_freq_mhz` | `1250` | 核频率 1.25 GHz |
 | `l1_size` | `32 KiB` | L1 大小，仅占位（当前不参与 DMA） |
-| `l2_size` | `1 MiB` | 每核独享 L2 窗口大小 |
-| `l2_base_core0` | `0x10800000` | core 0 的 L2 起始地址 |
+| `l2_size` | `0x000F0000` | 每核可用 L2 窗口大小（对应物理地址 `0x00810000 ~ 0x008FFFFF`） |
+| `l2_base_core0` | `0x10810000` | core 0 的可用 L2 起始地址 |
 | `l2_core_stride` | `0x01000000` | 相邻核心 L2 之间的步长 |
 | `smc_base` | `0x0C000000` | 全核共享 SMC 起始地址 |
 | `smc_size` | `0x00800000` | SMC 总大小 8 MB |
@@ -107,7 +107,7 @@ from tvm.target import Target
 from tvm.tirx import c6678_config
 
 cfg = c6678_config.from_target(Target("c6678"))
-print(cfg.l2_address_range(3))      # (0x13800000, 0x138FFFFF)
+print(cfg.l2_address_range(3))      # (0x13810000, 0x138FFFFF)
 print(cfg.iter_cores_from_mask(0xF)) # [0, 1, 2, 3]
 ```
 
@@ -247,7 +247,7 @@ def build_matmul_module(
 |---|---|---|
 | `get_l2_address_range` | `(core_id, *, l2_base_core0, l2_core_stride, l2_size) -> (int, int)` | 返回核 `core_id` 的 L2 区间。默认参数取 `_C6678_DEFAULT_ATTRS`。 |
 | `iter_cores_from_mask` | `(core_mask: int) -> list[int]` | 8-bit 位图展开成核心 id 列表。 |
-| `validate_dma_path` | `(src_scope: str, dst_scope: str) -> None` | 校验 DMA 端点是否落在 `l2/smc/ddr`，否则抛 `ValueError`。 |
+| `validate_dma_path` | `(src_scope: str, dst_scope: str) -> None` | 校验 DMA 端点是否落在 `l2/smc/ddr`，否则抛 `ValueError`。仅用于字符串模板旧路径，不是 `load_row_major_tile` 新 ABI 的事实源。 |
 
 ### 4.3 常量与映射表
 
@@ -412,7 +412,7 @@ print(runtime_mod.inspect_source("c6678")[:2000])
 | 输入 PrimFunc | 单个无 reduction 的 injective block |
 | 匹配表达式 | block body 是 `BufferStore`，store value 是 `tirx.GE` |
 | 调度动作 | `split(outer, block_elems)`、两个输入 `cache_read("global.l2")`、`compute_at(tile_outer)`、`c6678.dma_load="dma_trans"`、`parallel(tile_outer)` |
-| 多核派发 | 由后续 `C6678MulticoreLower` 自动加入 `core_mask`、`GetCoreNum`、`c6678_get_core_id`、`C6678E_SyncN` |
+| 多核派发 | 由后续 `C6678MulticoreLower` 自动加入 `core_mask`、`GetCoreNum`、`GetLogicCoreId(core_mask, DNUM)`、`C6678E_SyncN` |
 | 输出 dtype | TVM bool storage 在 C codegen 中落为 `int8_t*` |
 | 已完成 | same-shape 输入侧 `dma_trans` staging + 1D L2 compact，tile offset、tail size、tile-local L2 index 由 `C6678DMALower` 计算 |
 | 未完成 | scalar/broadcast 分支、输出 DMA store、BSP `get_l2_addr` 指针化、直接退化到 BSP `fp_greater_equal_s` |
@@ -430,7 +430,7 @@ print(runtime_mod.inspect_source("c6678")[:2000])
 
 当前 ElementGreaterEqual 的 1D 输入 staging 已在 `C6678DMALower` 内完成专用 compact：pass 在 `ConvertBlocksToOpaque` 前消费 `SBlockRealize.iter_values`，记录 tile 起点和 tile extent，生成 `dma_trans((&A[offset]), &L2[0], size_bytes)`，并把后续 L2 `BufferLoad/BufferStore` 从全局 index 改写为 `index - tile_start`。这样下游 `StorageRewrite` 可把 A/B 两个 compact tile 合并为 `2 * tile_extent` 的 L2 storage，避免原始全量 shape 分配。
 
-该逻辑只覆盖 `c6678.dma_load="dma_trans"` 的 1D 连续 staging，不影响 matmul 的 `load_row_major_tile` 2D 路径。当前仍未生成 `examples.md` 中的 `get_l2_addr(core_id)` pointer-style 模板；该部分属于后续 BSP 风格 L2 region planning。
+该逻辑只覆盖 `c6678.dma_load="dma_trans"` 的 1D 连续 staging，不影响 matmul 的 `load_row_major_tile` 2D 路径。本轮源码契约已把 `global.l2` alloc 的目标形态切到 per-core L2 指针，即 `l2_base_core0 + DNUM * l2_core_stride`；仓库中已提交的生成快照若仍是旧栈数组，需要重新运行生成脚本刷新。
 
 ## 8. LSTM extern composite wrapper
 
@@ -450,7 +450,7 @@ T.evaluate(T.call_extern("", "fp_lstm_s", Output.data, Input.data, Params.data, 
 
 `extract_features(func, target)` 是 A.5 dispatcher 的只读输入契约。当前输出 `C6678PrimFuncFeatures`，每个 block 给出：`op_kind`、`dom_kind`、`dom_extents`、`dtype`、`read_bufs`、`write_bufs`、`flop_count_static`、`tile_hint`、`static_alloc_l2_bytes`。
 
-当前 L2 容量估算采用保守口径：对 matmul 的读 buffer staging 按 A/B 两个原始读 buffer 的静态 shape 全量估算，而不是只估算单个 tile。128×128×128 fp32 matmul 的 `static_alloc_l2_bytes` 为 131072B，对齐当前生成 C 源码中的 `float A_global_l2[32768]`。该值供 `dispatcher.select_template` 与 `C6678Config.l2_size` 做容量门禁。
+当前 L2 容量估算采用保守口径：对 matmul 的读 buffer staging 按 A/B 两个原始读 buffer 的静态 shape 全量估算，而不是只估算单个 tile。128×128×128 fp32 matmul 的 `static_alloc_l2_bytes` 为 131072B。该值供 `dispatcher.select_template` 与 `C6678Config.l2_size` 做容量门禁，不应再被解释为“最终一定生成 `float A_global_l2[32768]` 栈数组”。
 
 ## 10. `C6678DMALower` 失败策略
 
@@ -460,7 +460,7 @@ T.evaluate(T.call_extern("", "fp_lstm_s", Output.data, Input.data, Params.data, 
 
 | annotation | 期望形态 | 输出 |
 |---|---|---|
-| `c6678.dma_load="load_row_major_tile"` | 严格 2 层 For 包裹 staging `SBlockRealize` | `call_extern("load_row_major_tile", ...)` |
+| `c6678.dma_load="load_row_major_tile"` | 严格 2 层 For 包裹 staging `SBlockRealize` | `call_extern("load_row_major_tile", src, dst, row0, col0, rows, cols, src_ld, elem_bytes)` |
 | `c6678.dma_load="dma_trans"` | 严格 1 层 For 包裹 staging `SBlockRealize` | `call_extern("dma_trans", src, compact_dst, size_bytes)`，并同步做 1D L2 compact remap |
 
 如果 pass 执行后仍残留 `c6678.dma_load` annotation，说明 schedule 端生成了无法识别的 DMA staging 形态，当前实现会直接抛 `ValueError`，避免静默跳过后仍标记 `c6678.dma_lowered=True`。

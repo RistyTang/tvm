@@ -63,20 +63,20 @@ def test_greater_equal_compiles_to_c_source() -> None:
         "expect dma_trans source pointers to use tile-dependent input offsets",
     )
     _check(
-        "float A_global_l2[174080]" in src,
-        "expect compact merged L2 staging storage for two 87040-element tiles",
+        "float* A_global_l2 = (float*)(276889600 + DNUM * 16777216);" in src,
+        "expect compact merged L2 staging storage bound to per-core L2",
     )
     _check(
-        "float A_global_l2[524288]" not in src,
-        "expect no full-size L2 allocation after dma_trans compact",
+        "float A_global_l2[" not in src,
+        "expect no stack L2 allocation after binding to per-core L2",
     )
     _check(
         "dma_trans((&(A[" in src and "(&(A_global_l2[0]))" in src,
         "expect first dma_trans destination to start at compact L2 offset 0",
     )
     _check(
-        "dma_trans((&(B[" in src and "(&(A_global_l2[87040]))" in src,
-        "expect second dma_trans destination to start at compact L2 offset 87040",
+        "dma_trans((&(B[" in src and "(&(A_global_l2[81568]))" in src,
+        "expect second dma_trans destination to start at compact L2 offset 81568",
     )
     _check(
         "A_global_l2[ax0_1]" in src,

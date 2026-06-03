@@ -119,15 +119,15 @@ def test_a7_bare_c_entry_signature() -> None:
 
 
 def test_a8_multicore_dispatch_and_syncn() -> None:
-    """A.8：``parallel(ax0)`` 已降为 ``GetCoreNum / c6678_get_core_id`` + 末尾 ``C6678E_SyncN``。"""
+    """A.8：``parallel(ax0)`` 已降为 ``GetCoreNum / GetLogicCoreId`` + 末尾 ``C6678E_SyncN``。"""
     src = _build_and_get_source()
     _check("GetCoreNum(core_mask)" in src, "expect GetCoreNum(core_mask) in body")
     _check(
-        "c6678_get_core_id(core_mask)" in src,
-        "expect c6678_get_core_id(core_mask) in body",
+        "GetLogicCoreId(core_mask, DNUM)" in src,
+        "expect GetLogicCoreId(core_mask, DNUM) in body",
     )
     _check(
-        "C6678E_SyncN(GetCoreNum(core_mask), c6678_get_core_id(core_mask))" in src,
+        "C6678E_SyncN(GetCoreNum(core_mask), GetLogicCoreId(core_mask, DNUM))" in src,
         "expect SyncN at function tail",
     )
     print("[OK] A.8 multicore dispatch + C6678E_SyncN tail-sync emitted")
@@ -184,17 +184,17 @@ def test_expf_lowering_via_default_intrin() -> None:
 
 
 def test_full_source_total_size_matches_baseline() -> None:
-    """端到端零差分回归：scheduled 出码字节数应与 PR-S2 phase A 落地快照一致（1925 chars）。
+    """端到端零差分回归：scheduled 出码字节数应与当前 ABI 修正后的快照一致（1849 chars）。
 
     一旦后续 pass 链路改动让出码字节数变化，这条用例会立刻报警，作为
     阻挡 unintended regression 的防线（参考 matmul end_to_end 的 2345 chars 防线）。
     """
     src = _build_and_get_source()
-    expected = 1925
+    expected = 1849
     _check(
         len(src) == expected,
         f"expect scheduled c6678 softmax source size to be {expected} chars (snapshot "
-        f"PR-S2 phase A landed), got {len(src)}",
+        f"after GetLogicCoreId ABI update), got {len(src)}",
     )
     print(f"[OK] zero-diff: scheduled c6678 softmax source = {expected} chars (snapshot match)")
 

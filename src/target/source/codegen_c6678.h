@@ -40,10 +40,22 @@ class CodeGenC6678 : public CodeGenC {
 
   using CodeGenC::VisitStmt_;
   void VisitStmt_(const ForNode* op) override;
+  void VisitStmt_(const AllocBufferNode* op) override;
+
+  using CodeGenC::VisitExpr_;
+  void VisitExpr_(const VarNode* op, std::ostream& os) override;
+
+  using CodeGenC::PrintCallExtern;
+  void PrintCallExtern(Type ret_type, ffi::String global_symbol,
+                       const ffi::Array<PrimExpr>& args, bool skip_first_arg,
+                       std::ostream& os) override;
 
   using CodeGenC::PrintType;
   void PrintType(DataType t, std::ostream& os) override;
   // ==============================================================
+
+ protected:
+  void EnsureSpecialVarAlias(const VarNode* var);
 };
 
 }  // namespace codegen

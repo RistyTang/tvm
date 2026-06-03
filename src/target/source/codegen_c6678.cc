@@ -46,15 +46,11 @@ void CodeGenC6678::Init(bool output_ssa, const std::string& target_str) {
   decl_stream << "#include <stdbool.h>\n";
   decl_stream << "#include <stdint.h>\n";
   decl_stream << "#include <stdio.h>\n";
-  decl_stream << "#include <time.h>\n";
-  decl_stream << "#include <csl/csl_cache.h>\n";
-  decl_stream << "#include <csl_cacheAux.h>\n";
   decl_stream << "#include <tistdtypes.h>\n";
   decl_stream << "#include <inttypes.h>\n";
   decl_stream << "#include <stdbool.h>\n";
   decl_stream << "#include <78NE/initial.h>\n";
   decl_stream << "#include <78NE/DMA.h>\n";
-  decl_stream << "#include <c_api.h>\n";
   CodeGenC::Init(output_ssa);
 }
 
@@ -83,6 +79,98 @@ void CodeGenC6678::VisitStmt_(const ForNode* op) {
   this->EndScope(for_scope);
   PrintIndent();
   stream << "}\n";
+}
+
+void CodeGenC6678::VisitStmt_(const AllocBufferNode* op) {
+  if (!op->annotations.count("c6678.l2_static_alloc")) {
+    CodeGenC::VisitStmt_(op);
+    return;
+  }
+
+  TVM_FFI_ICHECK(op->buffer.defined());
+  const auto& shape = op->buffer->shape;
+  size_t constant_size = 1;
+  for (const auto& dim : shape) {
+    const IntImmNode* dim_imm = dim.as<IntImmNode>();
+    TVM_FFI_ICHECK(dim_imm) << "Can only handle constant size L2 allocation for c6678";
+    constant_size *= dim_imm->value;
+  }
+  TVM_FFI_ICHECK_GT(constant_size, 0) << "Can only handle non-empty L2 allocation for c6678";
+
+  int64_t l2_base_core0 = 0x10810000;
+  int64_t l2_core_stride = 0x01000000;
+  if (op->annotations.count("c6678.l2_base_core0")) {
+    l2_base_core0 = Downcast<IntImm>(op->annotations["c6678.l2_base_core0"])->value;
+  }
+  if (op->annotations.count("c6678.l2_core_stride")) {
+    l2_core_stride = Downcast<IntImm>(op->annotations["c6678.l2_core_stride"])->value;
+  }
+
+  std::string vid = AllocVarID(op->buffer->data.get());
+  alloc_storage_scope_[op->buffer->data.get()] = "global";
+
+  PrintIndent();
+  PrintType(op->buffer->dtype, stream);
+  stream << "* " << vid << " = (";
+  PrintType(op->buffer->dtype, stream);
+  stream << "*)(" << l2_base_core0 << " + DNUM * " << l2_core_stride << ");\n";
+
+  RegisterHandleType(op->buffer->data.get(), op->buffer->dtype);
+  if (op->annotations.count(tirx::attr::kVolatile)) {
+    MarkVolatile(op->buffer->data.get());
+  }
+}
+
+void CodeGenC6678::VisitExpr_(const VarNode* op, std::ostream& os) {
+  // Allow bare BSP/hardware macros to appear in generated C without forcing
+  // them to be declared as TIR locals or function parameters.
+  if (op->name_hint == "DNUM") {
+    os << "DNUM";
+    return;
+  }
+  CodeGenC::VisitExpr_(op, os);
+}
+
+void CodeGenC6678::EnsureSpecialVarAlias(const VarNode* var) {
+  if (var == nullptr || var->name_hint != "DNUM") {
+    return;
+  }
+  if (!name_supply_->ContainsName("DNUM")) {
+    name_supply_->ReserveName("DNUM");
+  }
+  if (!var_idmap_.count(var)) {
+    var_idmap_[var] = "DNUM";
+  }
+}
+
+void CodeGenC6678::PrintCallExtern(Type ret_type, ffi::String global_symbol,
+                                   const ffi::Array<PrimExpr>& args, bool skip_first_arg,
+                                   std::ostream& os) {
+  for (const auto& arg : args) {
+    if (const auto* var = arg.as<VarNode>()) {
+      EnsureSpecialVarAlias(var);
+    }
+  }
+
+  if (global_symbol == "GetLogicCoreId") {
+    os << "GetLogicCoreId(";
+    int start = skip_first_arg ? 1 : 0;
+    for (int i = start; i < static_cast<int>(args.size()); ++i) {
+      if (i != start) {
+        os << ", ";
+      }
+      if (const auto* var = args[i].as<VarNode>()) {
+        if (var->name_hint == "DNUM") {
+          os << "DNUM";
+          continue;
+        }
+      }
+      this->PrintExpr(args[i], os);
+    }
+    os << ")";
+    return;
+  }
+  CodeGenC::PrintCallExtern(ret_type, global_symbol, args, skip_first_arg, os);
 }
 
 void CodeGenC6678::PrintType(DataType t, std::ostream& os) {
