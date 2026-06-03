@@ -18,3 +18,9 @@
 # pylint: disable=wildcard-import, invalid-name
 
 from .analysis import *
+from .c6678_features import (
+    C6678BufferSpec,
+    C6678OpFeatures,
+    C6678PrimFuncFeatures,
+    extract_features,
+)

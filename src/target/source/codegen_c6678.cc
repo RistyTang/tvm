@@ -65,6 +65,7 @@ void CodeGenC6678::VisitStmt_(const ForNode* op) {
   std::string step_str = op->step.has_value() ? PrintExpr(*op->step) : "";
   
   std::string vid = AllocVarID(op->loop_var.get());
+  //把循环变量拆出来声明。
   PrintIndent();
   PrintType(op->loop_var.dtype(), stream);
   stream << " " << vid << ";\n";
@@ -169,13 +170,6 @@ ffi::Module BuildC6678(IRModule mod, Target target) {
   for (auto [gvar, base_func] : mod->functions) {
     TVM_FFI_ICHECK(base_func->IsInstance<PrimFuncNode>()) << "CodegenC6678: Can only take PrimFunc";
     auto prim_func = Downcast<PrimFunc>(base_func);
-    // ======== 新增拦截与改名逻辑 ========
-    if (auto global_symbol = prim_func->GetAttr<ffi::String>(tvm::attr::kGlobalSymbol)) {
-      if (global_symbol.value() == "__tvm_ffi_main") {
-        // 将被 TVM 包装过的入口函数名强制还原为 "test"
-        prim_func = WithAttr(std::move(prim_func), tvm::attr::kGlobalSymbol, ffi::String("test_func"));
-      }
-    }
     funcs.push_back({gvar, prim_func});
   }
 

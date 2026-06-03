@@ -20,6 +20,7 @@
 from . import gpu
 from . import adreno
 from . import cpu
+from . import c6678
 from .analysis import (
     SBlockInfo,
     IterInfo,

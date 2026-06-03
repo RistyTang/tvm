@@ -349,17 +349,33 @@ TVM_REGISTER_TARGET_KIND("llvm", kDLCPU)
 //                     cl::desc("The cost threshold for loop unrolling"));
 // Hence the type is "uint".
 
+// C6678 DSP target: 8 cores, per-core L2, shared SMC, external DDR.
+// Hardware constants below mirror the assumptions documented in
+// `Test4dsp/learning.md` section 5 (project hardware & runtime assumptions).
+//
+//   - Per-core L2: 1MB window starting at 0x10800000 with a 0x01000000 stride
+//     (Core i base = 0x10800000 + i * 0x01000000).
+//   - Shared SMC : 0x0C000000 -> 0x0C7FFFFF (8MB).
+//   - DDR        : starts at 0x80000000, default window 0x80000000.
+//   - DMA        : synchronous `dma_trans` only, max single transfer = INT_MAX.
+//   - Core clock : 1.25GHz (1250MHz).
 TVM_REGISTER_TARGET_KIND("c6678", kDLCPU)
     .add_attr_option<ffi::String>("mcpu")
     .add_attr_option<ffi::String>("march")
-    .add_attr_option<int64_t>("core_num")
-    .add_attr_option<int64_t>("l1_size")
-    .add_attr_option<int64_t>("l2_size")
-    .add_attr_option<int64_t>("smc_size")
-    .add_attr_option<int64_t>("dma_align_bytes")
-    .add_attr_option<int64_t>("dma_burst_bytes")
-    .add_attr_option<int64_t>("dma_max_transfer")
-    .add_attr_option<int64_t>("vector_bytes")
+    .add_attr_option<int64_t>("core_num", refl::DefaultValue(int64_t(8)))
+    .add_attr_option<int64_t>("core_freq_mhz", refl::DefaultValue(int64_t(1250)))
+    .add_attr_option<int64_t>("l1_size", refl::DefaultValue(int64_t(32 * 1024)))
+    .add_attr_option<int64_t>("l2_size", refl::DefaultValue(int64_t(1024 * 1024)))
+    .add_attr_option<int64_t>("l2_base_core0", refl::DefaultValue(int64_t(0x10800000)))
+    .add_attr_option<int64_t>("l2_core_stride", refl::DefaultValue(int64_t(0x01000000)))
+    .add_attr_option<int64_t>("smc_base", refl::DefaultValue(int64_t(0x0C000000)))
+    .add_attr_option<int64_t>("smc_size", refl::DefaultValue(int64_t(0x00800000)))
+    .add_attr_option<int64_t>("ddr_base", refl::DefaultValue(int64_t(0x80000000)))
+    .add_attr_option<int64_t>("ddr_size", refl::DefaultValue(int64_t(0x80000000)))
+    .add_attr_option<int64_t>("dma_align_bytes", refl::DefaultValue(int64_t(64)))
+    .add_attr_option<int64_t>("dma_burst_bytes", refl::DefaultValue(int64_t(64)))
+    .add_attr_option<int64_t>("dma_max_transfer", refl::DefaultValue(int64_t(0x7FFFFFFF)))
+    .add_attr_option<int64_t>("vector_bytes", refl::DefaultValue(int64_t(32)))
     .add_attr_option<int64_t>("workspace-byte-alignment")
     .add_attr_option<int64_t>("constants-byte-alignment")
     .set_default_keys({"cpu"})

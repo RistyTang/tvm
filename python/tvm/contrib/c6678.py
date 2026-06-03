@@ -56,6 +56,22 @@ _SUPPORTED_DTYPES: dict[str, dict[str, Any]] = {
 _SCOPE_TO_ENUM = {"ddr": 0, "l2": 1, "smc": 2}
 _ACTIVATION_TO_ENUM = {"none": 0, "relu": 1, "relu6": 2}
 
+# 常量来源已迁移到 `tvm.tirx.c6678_config`（路线图 §16 A.1），
+# 这里仅做 re-export 以维持原有 import 路径，避免破坏外部脚本。
+from tvm.tirx.c6678_config import (  # noqa: E402,F401
+    C6678_MAX_CORES,
+    _C6678_DEFAULT_ATTRS as _C6678_DEFAULTS,
+)
+
+C6678_DEFAULT_L2_BASE_CORE0 = _C6678_DEFAULTS["l2_base_core0"]
+C6678_DEFAULT_L2_CORE_STRIDE = _C6678_DEFAULTS["l2_core_stride"]
+C6678_DEFAULT_L2_SIZE = _C6678_DEFAULTS["l2_size"]
+C6678_DEFAULT_SMC_BASE = _C6678_DEFAULTS["smc_base"]
+C6678_DEFAULT_SMC_SIZE = _C6678_DEFAULTS["smc_size"]
+C6678_DEFAULT_DDR_BASE = _C6678_DEFAULTS["ddr_base"]
+C6678_DEFAULT_DDR_SIZE = _C6678_DEFAULTS["ddr_size"]
+C6678_DEFAULT_DMA_MAX_TRANSFER = _C6678_DEFAULTS["dma_max_transfer"]
+
 
 def _as_target(target: str | Target) -> Target:
     target = Target(target)
@@ -67,7 +83,10 @@ def _as_target(target: str | Target) -> Target:
 def _normalize_scope(name: str, value: str) -> str:
     normalized = value.lower()
     if normalized not in _SCOPE_TO_ENUM:
-        raise ValueError(f"Unsupported {name}: {value}")
+        raise ValueError(
+            f"Unsupported {name}: {value!r}. C6678 only supports DMA between "
+            f"{sorted(_SCOPE_TO_ENUM.keys())}."
+        )
     return normalized
 
 
@@ -92,6 +111,71 @@ def _select_operator_variant(a_scope: str, b_scope: str, c_scope: str) -> str:
     return "s"
 
 
+def get_l2_address_range(
+    core_id: int,
+    *,
+    l2_base_core0: int = C6678_DEFAULT_L2_BASE_CORE0,
+    l2_core_stride: int = C6678_DEFAULT_L2_CORE_STRIDE,
+    l2_size: int = C6678_DEFAULT_L2_SIZE,
+) -> tuple[int, int]:
+    """Return ``(base, end_inclusive)`` for the per-core L2 window.
+
+    Each C6678 core has its own L2 window. By default core ``i`` lives at
+    ``0x10800000 + i * 0x01000000`` and spans ``l2_size`` bytes (default 1MB),
+    matching the addresses recorded in ``Test4dsp/learning.md`` section 5.2.
+    """
+    if core_id < 0 or core_id >= C6678_MAX_CORES:
+        raise ValueError(
+            f"core_id must be in [0, {C6678_MAX_CORES}), got {core_id}"
+        )
+    base = l2_base_core0 + core_id * l2_core_stride
+    end = base + l2_size - 1
+    return base, end
+
+
+def iter_cores_from_mask(core_mask: int) -> list[int]:
+    """Expand a ``core_mask`` bitmap into the participating logical core ids."""
+    if core_mask <= 0:
+        raise ValueError(f"core_mask must be a positive bitmap, got {core_mask:#x}")
+    if core_mask >> C6678_MAX_CORES:
+        raise ValueError(
+            f"core_mask {core_mask:#x} references cores beyond core{C6678_MAX_CORES - 1}"
+        )
+    return [i for i in range(C6678_MAX_CORES) if (core_mask >> i) & 1]
+
+
+def _validate_core_mask(core_mask: int, use_multicore: bool) -> tuple[int, int]:
+    """Return ``(normalized_core_mask, active_core_count)``.
+
+    The mask must always be a valid bitmap inside ``[1, 0xFF]``. When the user
+    explicitly disables multicore execution, the mask is forced to ``0x01`` so
+    the generated kernel runs on a single core.
+    """
+    if not use_multicore:
+        return 0x01, 1
+    cores = iter_cores_from_mask(int(core_mask))
+    return int(core_mask), len(cores)
+
+
+def _validate_scope_for_dma(scope: str, scope_name: str) -> None:
+    """Reject buffers that live outside the L2/SMC/DDR DMA universe."""
+    if scope not in _SCOPE_TO_ENUM:
+        raise ValueError(
+            f"{scope_name} scope {scope!r} is not legal for C6678 DMA. "
+            f"Allowed scopes: {sorted(_SCOPE_TO_ENUM.keys())}."
+        )
+
+
+def validate_dma_path(src_scope: str, dst_scope: str) -> None:
+    """Reject DMA paths that fall outside the L2/SMC/DDR universe.
+
+    C6678 DMA is currently modelled only between ``L2``/``SMC``/``DDR``.
+    L1D/L1P are intentionally excluded - see ``learning.md`` section 5.1.
+    """
+    _validate_scope_for_dma(src_scope, "DMA source")
+    _validate_scope_for_dma(dst_scope, "DMA destination")
+
+
 def _variant_enabled(selected_variant: str, candidate_variant: str) -> int:
     return 1 if selected_variant == candidate_variant else 0
 
@@ -113,15 +197,34 @@ def _build_source(
     use_multicore: bool,
     core_mask: int,
     core_num: int,
+    active_core_num: int,
     block_size: int,
     l2_size: int,
+    l2_base_core0: int,
+    l2_core_stride: int,
+    smc_base: int,
     smc_size: int,
+    ddr_base: int,
+    ddr_size: int,
     dma_align_bytes: int,
     dma_max_transfer: int,
     vector_bytes: int,
     selected_variant: str,
 ) -> str:
     dtype_info = _SUPPORTED_DTYPES[dtype]
+    l2_layout = "\n".join(
+        "// "
+        + f"  Core {core_id}: 0x{base:08X} -> 0x{end:08X}"
+        for core_id, (base, end) in (
+            (i, get_l2_address_range(
+                i,
+                l2_base_core0=l2_base_core0,
+                l2_core_stride=l2_core_stride,
+                l2_size=l2_size,
+            ))
+            for i in range(C6678_MAX_CORES)
+        )
+    )
     template = Template(
         r'''// Generated by tvm.contrib.c6678.build_matmul_module
 // target: $target
@@ -129,8 +232,12 @@ def _build_source(
 // shape: M=$M N=$N K=$K
 // scopes: A=$a_scope B=$b_scope C=$c_scope
 // selected_variant: $selected_variant
-// multicore: $use_multicore core_mask=$core_mask core_num=$core_num
+// multicore: $use_multicore core_mask=0x$core_mask_hex active_cores=$active_core_num core_num=$core_num
 // hardware: l2_size=$l2_size smc_size=$smc_size dma_align_bytes=$dma_align_bytes dma_max_transfer=$dma_max_transfer vector_bytes=$vector_bytes
+// per-core L2 address layout (from c6678 target attrs, 1MB per core):
+$l2_layout
+// shared SMC: 0x$smc_base_hex -> 0x$smc_end_hex
+// DDR window: 0x$ddr_base_hex -> 0x$ddr_end_hex
 
 #include <math.h>
 #include <stdint.h>
@@ -420,9 +527,15 @@ void ${selected_function_name}($c_type *A, $c_type *B, $c_type *C, $c_type *bias
         c_scope=c_scope,
         selected_variant=selected_variant,
         use_multicore="true" if use_multicore else "false",
-        core_mask=core_mask,
+        core_mask_hex=f"{core_mask:02X}",
+        active_core_num=active_core_num,
         core_num=core_num,
         l2_size=l2_size,
+        l2_layout=l2_layout,
+        smc_base_hex=f"{smc_base:08X}",
+        smc_end_hex=f"{smc_base + smc_size - 1:08X}",
+        ddr_base_hex=f"{ddr_base:08X}",
+        ddr_end_hex=f"{ddr_base + ddr_size - 1:08X}",
         smc_size=smc_size,
         dma_align_bytes=dma_align_bytes,
         dma_max_transfer=dma_max_transfer,
@@ -466,12 +579,31 @@ def build_matmul_module(
     block_size: int | None = None,
     core_num: int | None = None,
     l2_size: int | None = None,
+    l2_base_core0: int | None = None,
+    l2_core_stride: int | None = None,
+    smc_base: int | None = None,
     smc_size: int | None = None,
+    ddr_base: int | None = None,
+    ddr_size: int | None = None,
     dma_align_bytes: int | None = None,
     dma_max_transfer: int | None = None,
     vector_bytes: int | None = None,
 ):
-    """Build a CSourceModule for the C6678 matmul MVP path."""
+    """Build a CSourceModule for the C6678 matmul MVP path.
+
+    The function performs three checks before generating source:
+
+    1. ``a_scope/b_scope/c_scope`` must be one of ``L2/SMC/DDR``.
+       Other scopes (for example ``L1D``/``L1P``) are rejected because
+       C6678 DMA is currently only modelled between L2/SMC/DDR.
+    2. ``core_mask`` must be a valid 8-bit bitmap. ``use_multicore=False``
+       collapses the mask to ``0x01`` so the generated kernel runs only on
+       core 0.
+    3. Hardware constants (per-core L2 base/size, SMC, DDR, DMA limits)
+       are pulled from the ``c6678`` target attrs first, so users can
+       override them via ``Target("c6678 -l2_size=...")`` without editing
+       Python.
+    """
 
     if dtype not in _SUPPORTED_DTYPES:
         raise ValueError(f"Unsupported dtype: {dtype}")
@@ -481,15 +613,33 @@ def build_matmul_module(
     a_scope = _normalize_scope("a_scope", a_scope)
     b_scope = _normalize_scope("b_scope", b_scope)
     c_scope = _normalize_scope("c_scope", c_scope)
+    validate_dma_path(a_scope, "l2")
+    validate_dma_path(b_scope, "l2")
+    validate_dma_path("l2", c_scope)
 
     block_size = int(block_size or _SUPPORTED_DTYPES[dtype]["block_size"])
-    core_num = _pick_int(target, core_num, "core_num", 8)
-    l2_size = _pick_int(target, l2_size, "l2_size", 512 * 1024)
-    smc_size = _pick_int(target, smc_size, "smc_size", 2 * 1024 * 1024)
+    core_num = _pick_int(target, core_num, "core_num", C6678_MAX_CORES)
+    l2_size = _pick_int(target, l2_size, "l2_size", C6678_DEFAULT_L2_SIZE)
+    l2_base_core0 = _pick_int(
+        target, l2_base_core0, "l2_base_core0", C6678_DEFAULT_L2_BASE_CORE0
+    )
+    l2_core_stride = _pick_int(
+        target, l2_core_stride, "l2_core_stride", C6678_DEFAULT_L2_CORE_STRIDE
+    )
+    smc_base = _pick_int(target, smc_base, "smc_base", C6678_DEFAULT_SMC_BASE)
+    smc_size = _pick_int(target, smc_size, "smc_size", C6678_DEFAULT_SMC_SIZE)
+    ddr_base = _pick_int(target, ddr_base, "ddr_base", C6678_DEFAULT_DDR_BASE)
+    ddr_size = _pick_int(target, ddr_size, "ddr_size", C6678_DEFAULT_DDR_SIZE)
     dma_align_bytes = _pick_int(target, dma_align_bytes, "dma_align_bytes", 64)
-    dma_max_transfer = _pick_int(target, dma_max_transfer, "dma_max_transfer", 0x7FFF)
+    dma_max_transfer = _pick_int(
+        target, dma_max_transfer, "dma_max_transfer", C6678_DEFAULT_DMA_MAX_TRANSFER
+    )
     vector_bytes = _pick_int(target, vector_bytes, "vector_bytes", 32)
+
     selected_variant = _select_operator_variant(a_scope, b_scope, c_scope)
+    normalized_core_mask, active_core_num = _validate_core_mask(
+        int(core_mask), bool(use_multicore)
+    )
 
     source = _build_source(
         target=target,
@@ -505,11 +655,17 @@ def build_matmul_module(
         b_scope=b_scope,
         c_scope=c_scope,
         use_multicore=bool(use_multicore),
-        core_mask=int(core_mask),
+        core_mask=normalized_core_mask,
         core_num=core_num,
+        active_core_num=active_core_num,
         block_size=block_size,
         l2_size=l2_size,
+        l2_base_core0=l2_base_core0,
+        l2_core_stride=l2_core_stride,
+        smc_base=smc_base,
         smc_size=smc_size,
+        ddr_base=ddr_base,
+        ddr_size=ddr_size,
         dma_align_bytes=dma_align_bytes,
         dma_max_transfer=dma_max_transfer,
         vector_bytes=vector_bytes,

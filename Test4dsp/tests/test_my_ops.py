@@ -1,25 +1,53 @@
-import ctypes
+import shutil
+import subprocess
+from pathlib import Path
+
 import numpy as np
 import tvm_ffi
 from tvm_ffi import libinfo
 
+
+TEST4DSP_DIR = Path(__file__).resolve().parents[1]
+SRC_FILE = TEST4DSP_DIR / "src" / "total_test.c"
+BUILD_DIR = TEST4DSP_DIR / "build"
+SO_FILE = BUILD_DIR / "libtotal_test.so"
+
+
+def _build_total_test_so() -> Path:
+    """Build the local FFI demo shared library when it is missing or stale."""
+    compiler = shutil.which("cc") or shutil.which("gcc")
+    if compiler is None:
+        raise RuntimeError("Cannot find a C compiler to build libtotal_test.so")
+
+    BUILD_DIR.mkdir(parents=True, exist_ok=True)
+    if SO_FILE.exists() and SO_FILE.stat().st_mtime >= SRC_FILE.stat().st_mtime:
+        return SO_FILE
+
+    include_flags = [f"-I{path}" for path in libinfo.include_paths()]
+    cmd = [
+        compiler,
+        "-shared",
+        "-fPIC",
+        "-O2",
+        *include_flags,
+        str(SRC_FILE),
+        "-o",
+        str(SO_FILE),
+    ]
+    subprocess.run(cmd, check=True)
+    return SO_FILE
+
+
 def test_my_custom_add():
-    # 1. 加载你刚刚编译好的动态链接库
-    lib = libinfo.load_lib_ctypes("libtotal_test.so")
-    
-    # 2. 从库中获取你的算子函数
-    # 注意：在 Python 侧调用时，不需要加上 __tvm_ffi_ 前缀
-    my_add_func = lib.get_func("add_one_c")
-    
-    # 3. 准备测试数据
-    # 因为你用的是 C ABI，它支持任何实现了 DLPack 协议的张量（如 numpy, PyTorch）
+    """Load and run the local TVM FFI C demo op through the public module API."""
+    so_path = _build_total_test_so()
+    mod = tvm_ffi.load_module(str(so_path))
+
     x = np.array([1.0, 2.0, 3.0], dtype=np.float32)
     y = np.empty_like(x)
-    
-    # 4. 执行算子
-    my_add_func(x, y)
-    
-    # 5. 验证结果
+
+    mod.add_one_c(x, y)
+
     np.testing.assert_allclose(y, x + 1.0)
     print("Test passed!")
 

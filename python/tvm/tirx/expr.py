@@ -64,7 +64,7 @@ def _dtype_is_float(value):
         return True
     return isinstance(value, ExprOp) and DataType(value.dtype).type_code == DataTypeCode.FLOAT  # type: ignore
 
-
+# 定义了一系列计算节点
 class ExprOp:
     """Operator overloading for Expr like expressions."""
 
@@ -344,7 +344,7 @@ class CmpExpr(PrimExprWithOp):
 class LogicalExpr(PrimExprWithOp):
     pass
 
-
+# 代表变量的节点
 @tvm_ffi.register_object("tirx.Var")
 class Var(PrimExprWithOp):
     """Symbolic variable.
@@ -367,7 +367,7 @@ class Var(PrimExprWithOp):
     def __init__(self, name: str, dtype: str | ir.Type, span: Span | None = None) -> None:
         self.__init_handle_by_constructor__(_ffi_api.Var, name, dtype, span)  # type: ignore
 
-
+# 代表一个>=0size 的张量的节点
 @tvm_ffi.register_object("tirx.SizeVar")
 class SizeVar(Var):
     """Symbolic variable to represent a tensor index size
@@ -389,7 +389,7 @@ class SizeVar(Var):
     def __init__(self, name: str, dtype: str | ir.Type, span: Span | None = None) -> None:
         self.__init_handle_by_constructor__(_ffi_api.SizeVar, name, dtype, span)  # type: ignore
 
-
+# 代表计算中用于循环的变量
 @tvm_ffi.register_object("tirx.IterVar")
 class IterVar(ExprOp, Object, Scriptable):
     """Represent iteration variable.

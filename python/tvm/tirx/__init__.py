@@ -118,6 +118,7 @@ from . import transform
 from . import analysis
 from . import backend
 from . import stmt_functor
+from . import c6678_config
 from .build import build
 from .pipeline import get_tir_pipeline, get_default_tir_pipeline
 from .functor import PyStmtExprVisitor, PyStmtExprMutator

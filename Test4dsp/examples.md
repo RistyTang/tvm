@@ -1,47 +1,661 @@
-# TVM 项目架构解析
+# 6678上DMA搬运相关代码
+这一部分已经包装成同步dma搬运函数dma_trans了（在最后）
+```c
+/**
+********************************************************************************
+* @file       M6678E_DMA.c
+* @brief      实现M6678E DMA各种功能的接口函数。
+* @version    V1.0
+* @date       2021.05.19
+* @attention
+* \par
+* ==============================================================================
+* @n   (C) 飞腾DSP技术支持团队.
+********************************************************************************
+*/
+#include <c6x.h>
+#include "DMA.h"
+
+/** @addtogroup DMA_FUNCTION
+ @{ */
+
+/**
+********************************************************************************
+ *   @n@b DMA_ParaConfig(volatile unsigned int DMA_Numb,volatile unsigned int Numb ,volatile unsigned int QueueNUM,volatile unsigned int SourceAddr,volatile unsigned int Acount,volatile unsigned int Bcount,volatile unsigned int DestinationAddr,volatile unsigned int IntEnable)
+ *
+ *   @b 功能：
+ *   @n DMA配置函数
+ *
+ *   @b 形参：
+ *   @verbatim
+ *       DMA_Numb 为DMA部件的选择，为DMA0和DMA2其中的一个
+ *       Numb  为通道号
+ *       QueueNUM 为队列号   因为只有4个队列，所以该参数仅可配0~3 四个参数。
+ *       SourceAddr为源地址
+ *       Acount为数据字节数
+ *       Bcount为数据帧数
+ *       DestinationAddr为目的地址
+ *       IntEnable为中断使能
+ *   @endverbatim
+ *
+ *   <b> 返回值： </b>
+ *   @n 无
+ *
+ *   <b> 注意事项： </b>
+ *   @n 无
+ *******************************************************************************
+ */
+void DMA_ParaConfig(volatile unsigned int DMA_Numb,volatile unsigned int Numb ,volatile unsigned int QueueNUM,volatile unsigned int SourceAddr,volatile unsigned int Acount,volatile unsigned int Bcount,volatile unsigned int DestinationAddr,volatile unsigned int IntEnable)
+{
+    volatile unsigned int DMA_BASE=0;
+    volatile int  set_OPT_addr ;
+    volatile int  DNUM_Temp=0;
+    int  Numb_temp = 0 ;
+    int  Bcount_tmp = Bcount << 16;
+    int  Acount_tmp = Acount << 16;
+    int  ABcount = Bcount_tmp | Acount;
+    int  Excursion =  Acount_tmp | Acount;
+    int  Numb_addr = Numb *0x4 ;
+    int  OPT_aar   = Numb *0x20 ;
+    int  Numb_TCC  = Numb <<12 ;
+    int  OPT_worth = 0x00900004  |  Numb_TCC ;
+    set_OPT_addr = OPT_offset + OPT_aar ;
+
+    DMA_BASE = DMA0_BASE + DMA_Numb * 0x40000;
+
+    *(int*)(DMA_BASE+DCHMAP_offset + Numb_addr)= OPT_aar;
+    /* 队列配置开始 */
+    DNUM_Temp = *(int*)(DMA_BASE+DMAQNUM_offset + (Numb/8)*0x4 );
+    Numb_temp = Numb % 8 ;
+    switch(Numb_temp)
+    {
+    case 0: DNUM_Temp = (DNUM_Temp & 0xFFFFFFF0) | QueueNUM; break;
+    case 1: DNUM_Temp = (DNUM_Temp & 0xFFFFFF0F) | (QueueNUM << 4 ) ; break;
+    case 2: DNUM_Temp = (DNUM_Temp & 0xFFFFF0FF) | (QueueNUM << 8 ) ; break;
+    case 3: DNUM_Temp = (DNUM_Temp & 0xFFFF0FFF) | (QueueNUM << 12) ; break;
+    case 4: DNUM_Temp = (DNUM_Temp & 0xFFF0FFFF) | (QueueNUM << 16) ; break;
+    case 5: DNUM_Temp = (DNUM_Temp & 0xFF0FFFFF) | (QueueNUM << 20) ; break;
+    case 6: DNUM_Temp = (DNUM_Temp & 0xF0FFFFFF) | (QueueNUM << 24) ; break;
+    case 7: DNUM_Temp = (DNUM_Temp & 0x0FFFFFFF) | (QueueNUM << 28) ; break;
+    default: break;
+    }
+    *(int*)(DMA_BASE+DMAQNUM_offset + (Numb/8)*0x4 ) = DNUM_Temp ;
+    /*  队列配置结束     */
+
+    /*  参数组配置     */
+    *(int*)(DMA_BASE+set_OPT_addr)         = OPT_worth;
+    *(int*)(DMA_BASE+set_OPT_addr+0x4)     = SourceAddr;
+    *(int*)(DMA_BASE+set_OPT_addr+0x8)     = ABcount;
+    *(int*)(DMA_BASE+set_OPT_addr+0xc)     = DestinationAddr;
+    *(int*)(DMA_BASE+set_OPT_addr+0x10)    = Excursion;
+    *(int*)(DMA_BASE+set_OPT_addr+0x14)    = 0X0001FFFF;
+    *(int*)(DMA_BASE+set_OPT_addr+0x18)    = 0X00010001;
+    *(int*)(DMA_BASE+set_OPT_addr+0x1c)    = 0X00010001;
+
+    if(Numb <32)
+        *(int*)(DMA_BASE+IESR_offset)      =  IntEnable;
+    else
+        *(int*)(DMA_BASE+IESR_offset+0x4)  =  IntEnable;
+}
 
 
-```text
-tvm/
-├── 3rdparty/       # 存放第三方依赖库，例如 DLPack、DMLC-Core、cutlass 等
-├── apps/           # 包含各种应用程序和多平台（Android/iOS等）集成部署示例
-├── build/          # CMake 编译生成的对象文件和动态链接库 (如 libtvm.so)
-├── ci/             # 持续集成相关的脚本和配置文件
-├── cmake/          # CMake 构建系统的模块和配置 (.cmake)，控制编译选项
-├── docker/         # 构建 TVM 开发与测试环境的 Docker 镜像和脚本
-├── docs/           # Sphinx 源码、使用教程和 API 参考文档
-├── include/        # 供外部调用的 C++ 头文件目录
-│   └── tvm/
-│       ├── s_tir/  # [定制] 调度与底层代码降级相关的头文件
-│       └── tirx/   # [定制] TIR 基础抽象与数据结构相关的头文件
-├── jvm/            # Java/Scala 前端和 JNI 绑定实现
-├── python/         # TVM 的 Python 前端代码库（核心入口）
-│   └── tvm/
-│       ├── s_tir/  # [定制] 对应 C++ s_tir 模块的 Python API 接口
-│       └── tirx/   # [定制] 对应 C++ tirx 模块的 Python API 接口
-├── src/            # TVM 核心组件的 C++ 源代码目录
-│   ├── arith/      # 算术分析和化简器 (分析表达式边界、证明不等式等)
-│   ├── ir/         # 最基础的中间表示抽象基类 (Expr, Stmt, Module 等)
-│   ├── relax/      # 新一代基于图的抽象中间表示 (Graph IR)，支持动态形状与异构编译
-│   ├── runtime/    # 运行时的核心实现 (内存分配, Graph Executor, CUDA/OpenCL 等设备 API)
-│   ├── script/     # TVM Script 解析器支持，实现 Python AST 到 C++ IR 对象的转换
-│   ├── s_tir/      # [定制拆分] 负责 TIR 相关的调度 (Schedule)、自动调优 (Meta Schedule) 与后端代码降级
-│   ├── tirx/       # [定制拆分] 负责 TIR 相关的基础结构 (AST)、内置算子、控制流与变量生命周期分析
-│   ├── support/    # 通用的基础工具类 (日志系统, 内存池, 字符串处理等)
-│   ├── target/     # 后端编译目标 (Target) 定义与设备专属代码生成器 (CodeGen)
-│   ├── te/         # 张量表达式 (Tensor Expression)，从声明式计算公式到底层 TIR 的转换接口
-│   └── topi/       # TVM 算子库 (Operator Inventory)，提供常见深度学习算子的底层实现和默认调度策略
-├── tests/          # 包含 Python 和 C++ 的单元测试及集成测试
-├── web/            # WebAssembly 相关的构建和绑定代码 (用于浏览器如 OPFS 环境中运行 TVM)
-└── Test4dsp/       # 开发者的个人测试或特定功能的临时验证目录 (当前工作目录)
+/**
+********************************************************************************
+ *   @n@b DMA_Start(volatile unsigned int DMA_Numb ,volatile unsigned int Numb)
+ *
+ *   @b 功能：
+ *   @n DMA启动传输函数
+ *
+ *   @b 形参：
+ *   @verbatim
+ *       DMA_Numb 为DMA部件的选择，为DMA0和DMA2其中的一个
+ *       Numb为通道号
+ *   @endverbatim
+ *
+ *   <b> 返回值： </b>
+ *   @n 无
+ *
+ *   <b> 注意事项： </b>
+ *   @n 无
+ *******************************************************************************
+ */
+void DMA_Start(volatile unsigned int DMA_Numb , volatile unsigned int Numb)
+{
+    volatile unsigned int DMA_BASE=0;
+    DMA_BASE = DMA0_BASE + DMA_Numb * 0x40000;
+    if(Numb <32)
+    {
+        int ESR_worth = 1 << Numb;
+        *(int*)(DMA_BASE+EMCR_offset)     = ESR_worth;
+        *(int*)(DMA_BASE+SECR_offset)     = ESR_worth;
+        *(int*)(DMA_BASE+ESR_offset )     = ESR_worth;
+    }
+    else
+    {
+        Numb = Numb - 32 ;
+        int  ESR_worth = 1 << Numb;
+        *(int*)(DMA_BASE+EMCR_offset+0x4) = ESR_worth;
+        *(int*)(DMA_BASE+SECR_offset+0x4) = ESR_worth;
+        *(int*)(DMA_BASE+ESR_offset+0x4 ) = ESR_worth;
+    }
+}
+
+/**
+********************************************************************************
+ *   @n@b DMA_TransState(volatile unsigned int DMA_Numb ,volatile unsigned int Numb)
+ *
+ *   @b 功能：
+ *   @n DMA传输状态查询函数
+ *
+ *   @b 形参：
+ *   @verbatim
+ *       DMA_Numb 为DMA部件的选择，为DMA0和DMA2其中的一个
+ *       Numb为通道号
+ *   @endverbatim
+ *
+ *   <b> 返回值： </b>
+ *   @n 若传输完成，返回数值1
+ *
+ *   <b> 注意事项： </b>
+ *   @n 无
+ *******************************************************************************
+ */
+int DMA_TransState(volatile unsigned int DMA_Numb , volatile unsigned int Numb)
+{
+    volatile int set_IPR_tmp = 0;
+    volatile unsigned int DMA_BASE=0;
+    DMA_BASE = DMA0_BASE + DMA_Numb * 0x40000;
+
+    if(Numb <32)
+    {
+        int IPR_worth = 1 << Numb;
+        while( set_IPR_tmp != IPR_worth )
+        {
+            set_IPR_tmp = *(int*)(DMA_BASE+IPR_offset);
+            set_IPR_tmp = IPR_worth & set_IPR_tmp;
+        }
+        *(int*)(DMA_BASE+ICR_offset)  = IPR_worth;
+    }
+    else
+    {
+        Numb = Numb - 32 ;
+        int IPR_worth = 1 << Numb;
+        while( set_IPR_tmp != IPR_worth )
+        {
+            set_IPR_tmp = *(int*)(DMA_BASE+IPR_offset+0X4);
+            set_IPR_tmp = IPR_worth & set_IPR_tmp;
+        }
+        *(int*)(DMA_BASE+ICR_offset+0X4) = IPR_worth;
+    }
+
+    return  1 ;
+}
+void dma_trans(void* src, void* dst,int size) {
+   PSC_Open_Clk("DMA0" , 1);
+   PSC_Open_Clk("DMA1" , 1);
+   PSC_Open_Clk("DMA2" , 1);
+   PSC_Open_Clk("DMA3" , 1);
+   PSC_Open_Clk("DMA4" , 1);
+
+   Uint32 temp_src = 0;
+   Uint32 temp_dst = 0;
+   int core_id = DNUM;
+   temp_src = (Uint32)src;
+   temp_dst = (Uint32)dst;
+   if (size <= 0xffff) {
+       DMA_ParaConfig(0, core_id ,0 ,temp_src ,size, 1, temp_dst ,0xFFFFFFFF);
+       DMA_Start(0,core_id);
+       while (!DMA_TransState(0,core_id));
+   }
+   else {
+       int frame = size / 0x7fff;
+      if (frame != 0) {
+          temp_src = (Uint32)src;
+          temp_dst = (Uint32)dst;
+          DMA_ParaConfig(0, core_id ,0 ,temp_src ,0x7fff, frame, temp_dst ,0xFFFFFFFF);
+          DMA_Start(0,core_id);
+          while (!DMA_TransState(0,core_id));
+      }
+      if (size % 0x7fff != 0) {
+         int size0 = size % 0x7fff;
+         temp_src = (Uint32)src + 0x7fff * frame;
+         temp_dst = (Uint32)dst + 0x7fff * frame;
+        DMA_ParaConfig(0, core_id, 0, temp_src, size0, 1, temp_dst ,0xFFFFFFFF);
+        DMA_Start(0,core_id);
+        while (!DMA_TransState(0,core_id));
+      }
+   }
+}
+```
+# softmax算子6678实现代码
+
+```c
+#include "softmax.h"
+#include "78NE/utils.h"
+#include "math.h"
+// output = exp(input) / reduce_sum(exp(input), axis)
+void fp_softmax_p(float *input_ptr, float *output_ptr, float *sum_data, int* param) {
+    int axis = param[0];
+    int n_dim = param[1];
+    int inner_size = param[2];
+    int outter_size = param[3];
+    int axis_size = param[4];
+
+  int i, j, k;
+  for (i = 0; i < outter_size; i++) {
+    int outter_offset = i * axis_size * inner_size;// input_shape[axis]: how many elements in one group
+    int sum_outter_offset = i * inner_size;
+    for (k = 0; k < inner_size; k++) {
+      int inner_offset = outter_offset + k;
+      float max_data = input_ptr[inner_offset];
+      sum_data[k + sum_outter_offset] = 0;// for size of input_shape[axis]
+      for (j = 0; j < axis_size; j++) {
+        int axis_offset = inner_offset + j * inner_size;
+        max_data = max_data > input_ptr[axis_offset] ? max_data : input_ptr[axis_offset];
+      }
+      for (j = 0; j < axis_size; j++) {
+        int axis_offset = inner_offset + j * inner_size;
+        output_ptr[axis_offset] = expf(input_ptr[axis_offset] - max_data);
+        sum_data[k + sum_outter_offset] += output_ptr[axis_offset];
+      }
+    }
+  }
+  for (i = 0; i < outter_size; i++) {
+    int outter_offset = i * axis_size * inner_size;
+    int sum_outter_offset = i * inner_size;
+    for (j = 0; j < axis_size; j++) {
+      int axis_offset = outter_offset + j * inner_size;
+      for (k = 0; k < inner_size; k++) {
+        int inner_offset = axis_offset + k;
+        output_ptr[inner_offset] = output_ptr[inner_offset] / sum_data[k + sum_outter_offset];
+      }
+    }
+  }
+}
+
+float fp_max_p(float *input_ptr, int data_size, float existing_max, int step, int start)
+{
+    float max = existing_max;
+    int i = start;
+    for(i = start; i < data_size; i += step)
+    {
+        if(input_ptr[i] > max)
+        {
+            max = input_ptr[i];
+        }
+    }
+    return max;
+}
+
+void fp_expf_p(float *input_ptr, float *output_ptr, float *sum_data,
+                int data_size, float max_data, int step, int start)
+{
+    int i = start;// inner group id (in)
+    sum_data[start] = 0;
+    for(i = start; i < data_size; i += step)
+    {
+        output_ptr[i] = expf(input_ptr[i] - max_data);
+        sum_data[start] += output_ptr[i];
+
+    }
+}
+
+void fp_div_p(float *output_ptr, float sum, int data_size, int step, int start)
+{
+    int i = start;// inner group id (in)
+    for(i = start; i < data_size; i += step)
+    {
+        output_ptr[i] = output_ptr[i] / sum;
+    }
+}
+
+
+void i8_softmax_p(int8_t *input_ptr, float *output_ptr, float *sum_data, int* param) {
+  int axis = param[0];
+  int n_dim = param[1];
+  int inner_size = param[2];
+  int outter_size = param[3];
+  int axis_size = param[4];
+  int i, j, k;
+  for (i = 0; i < outter_size; i++) {
+    int outter_offset = i * axis_size * inner_size;// input_shape[axis]: how many elements in one group
+    int sum_outter_offset = i * inner_size;
+    for (k = 0; k < inner_size; k++) {
+      int inner_offset = outter_offset + k;
+      int8_t max_data = input_ptr[inner_offset];
+      sum_data[k + sum_outter_offset] = 0;// for size of input_shape[axis]
+      for (j = 0; j < axis_size; j++) {
+        int axis_offset = inner_offset + j * inner_size;
+        max_data = max_data > input_ptr[axis_offset] ? max_data : input_ptr[axis_offset];
+      }
+      for (j = 0; j < axis_size; j++) {
+        int axis_offset = inner_offset + j * inner_size;
+        output_ptr[axis_offset] = expf(input_ptr[axis_offset] - max_data);
+        sum_data[k + sum_outter_offset] += output_ptr[axis_offset];
+      }
+    }
+  }
+  for (i = 0; i < outter_size; i++) {
+    int outter_offset = i * axis_size * inner_size;
+    int sum_outter_offset = i * inner_size;
+    for (j = 0; j < axis_size; j++) {
+      int axis_offset = outter_offset + j * inner_size;
+      for (k = 0; k < inner_size; k++) {
+        int inner_offset = axis_offset + k;
+        output_ptr[inner_offset] = output_ptr[inner_offset] / sum_data[k + sum_outter_offset];
+      }
+    }
+  }
+}
+
+float i8_max_p(int8_t *input_ptr, int data_size, float existing_max, int step, int start)
+{
+    float max = existing_max;
+    int i = start;
+    for(i = start; i < data_size; i += step)
+    {
+        if((float)(input_ptr[i]) > max)
+        {
+            max = (float)(input_ptr[i]);
+        }
+    }
+    return max;
+}
+
+void i8_expf_p(int8_t *input_ptr, float *output_ptr, float *sum_data,
+                int data_size, float max_data, int step, int start)
+{
+    int i = start;// inner group id (in)
+    sum_data[start] = 0;
+    for(i = start; i < data_size; i += step)
+    {
+        output_ptr[i] = expf((float)(input_ptr[i]) - max_data);
+        sum_data[start] += output_ptr[i];
+
+    }
+}
+
+void i8_div_p(float *output_ptr, float sum, int data_size, int step, int start)
+{
+    int i = start;// inner group id (in)
+    for(i = start; i < data_size; i += step)
+    {
+        output_ptr[i] = output_ptr[i] / sum;
+    }
+}
+
+// #define BLOCK_CAPACITY 76800 // floats
+//int BLOCK_CAPACITY = 8; // floats
+
+// divide the outter_size for different threads
+void fp_softmax_s(float *input, float *output, float* sum_data,
+                  int* param, int core_mask)
+{
+    int axis = param[0];
+    int n_dim = param[1];
+    int inner_size = param[2];
+    int outter_size = param[3];
+    int axis_size = param[4];
+
+    // 锟斤拷锟斤拷锟斤拷锟睫改★拷锟斤拷通锟斤拷锟斤拷锟斤拷直锟斤拷锟狡碉拷每锟斤拷 outer 循锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟皆拷锟斤拷锟� (length / outter_size)
+    int length_per_outer = inner_size * axis_size;
+
+    int BLOCK_CAPACITY = 115200; // floats
+    int core_id = DNUM;
+    int logic_core_id = GetLogicCoreId(core_mask, core_id);
+
+    int core_num = 0;
+    core_num = GetCoreNum(core_mask);
+
+    // 0x70800 Bytes --> 115200 floats
+    float *inputtemp = (float *)(L2GADDBASE + logic_core_id*L2GADDOFFSET);
+    float *outputtemp = (float *)(L2GADDBASE + logic_core_id*L2GADDOFFSET + 0x70800);
+    float *sumdatatemp = (float *)(L2GADDBASE + logic_core_id*L2GADDOFFSET + 0xe1000);
+
+    int outer_st = outter_size / core_num * logic_core_id;// assign outer loop to diff threads -> start id of outer loop
+    unsigned int offset = outer_st * length_per_outer;// start id of each core, float
+    int block_num = length_per_outer / BLOCK_CAPACITY; // block num of each outer loop
+
+    int outer_num = (logic_core_id == core_num - 1) ? (outter_size - outer_st) : (outter_size / core_num);
+
+    int curr_block;
+    float* A_fixed = input;
+    float* B_fixed = output;
+    float* C_fixed = sum_data;
+
+    int o = 0, in = 0;
+    for(o = 0; o < outer_num; o ++)
+    {
+        int outer_id = outer_st + o;
+        int outer_offset = outer_id * length_per_outer;
+        int sum_outer_offset = outer_id * inner_size;
+        for(in = 0; in < inner_size; in ++)
+        {
+            int inner_offset = outer_offset + in;
+
+            // Step 1: get max value of this outer-inner group of axis_size data
+            float max_data = input[inner_offset]; // get init value
+            sum_data[sum_outer_offset + in] = 0;
+
+            for(curr_block = 0; curr_block < block_num; curr_block ++)
+            {
+                A_fixed = &input[outer_offset + curr_block * BLOCK_CAPACITY];
+                B_fixed = &output[outer_offset + curr_block * BLOCK_CAPACITY];
+                // transfer data of current block: ddr --> L2 (input)
+                dma_trans(A_fixed, inputtemp, BLOCK_CAPACITY * sizeof(float));
+                float max_temp = fp_max_p(inputtemp, BLOCK_CAPACITY, max_data, inner_size, in);
+                max_data = max_temp > max_data ? max_temp : max_data;
+            }
+
+            // process remained data (less than one BLOCK_CAPACITY)
+            A_fixed = &input[outer_offset + curr_block * BLOCK_CAPACITY];
+            B_fixed = &output[outer_offset + curr_block * BLOCK_CAPACITY];
+            int remain_length = length_per_outer - BLOCK_CAPACITY * curr_block;
+            if (remain_length > 0) {
+                dma_trans(A_fixed, inputtemp, remain_length * sizeof(float));
+                float max_temp = fp_max_p(inputtemp, remain_length, max_data, inner_size, in);
+                max_data = max_temp > max_data ? max_temp : max_data;
+            }
+
+            // Step 2: use the value of max_data, do expf and calcu sum of one outer-inner group
+            for(curr_block = 0; curr_block < block_num; curr_block ++)
+            {
+                A_fixed = &input[outer_offset + curr_block * BLOCK_CAPACITY];
+                B_fixed = &output[outer_offset + curr_block * BLOCK_CAPACITY];
+                // transfer data of current block: ddr --> L2 (input)
+                dma_trans(A_fixed, inputtemp, BLOCK_CAPACITY * sizeof(float));
+                fp_expf_p(inputtemp, outputtemp, sumdatatemp,
+                            BLOCK_CAPACITY, max_data, inner_size, in); // calcu data of current block
+                // transfer data of current block: L2 --> ddr (output)
+                dma_trans(outputtemp, B_fixed, BLOCK_CAPACITY * sizeof(float));
+                float sum_temp = sumdatatemp[in];
+                sum_data[sum_outer_offset + in] += sum_temp;
+            }
+
+            // process remained data
+            A_fixed = &input[outer_offset + curr_block * BLOCK_CAPACITY];
+            B_fixed = &output[outer_offset + curr_block * BLOCK_CAPACITY];
+            C_fixed = &sum_data[sum_outer_offset];
+            remain_length = length_per_outer - BLOCK_CAPACITY * curr_block;
+
+            if (remain_length > 0) {
+                dma_trans(A_fixed, inputtemp, remain_length * sizeof(float));
+                fp_expf_p(inputtemp, outputtemp, sumdatatemp,
+                        remain_length, max_data, inner_size, in);
+                dma_trans(outputtemp, B_fixed, remain_length * sizeof(float));
+                float sum_temp = sumdatatemp[in];
+                sum_data[sum_outer_offset + in] += sum_temp;
+            }
+        }
+    }
+
+    // Step 3: use the value of sum_data, do div
+    for(o = 0; o < outer_num; o ++)
+    {
+        int outer_id = outer_st + o;
+        int outer_offset = outer_id * length_per_outer;
+        int sum_outer_offset = outer_id * inner_size;
+        for(in = 0; in < inner_size; in ++)
+        {
+            for(curr_block = 0; curr_block < block_num; curr_block ++)
+            {
+                A_fixed = &input[outer_offset + curr_block * BLOCK_CAPACITY];
+                B_fixed = &output[outer_offset + curr_block * BLOCK_CAPACITY];
+                // transfer data of current block: ddr --> L2 (output)
+                dma_trans(B_fixed, outputtemp, BLOCK_CAPACITY * sizeof(float));
+                fp_div_p(outputtemp, sum_data[sum_outer_offset + in], BLOCK_CAPACITY, inner_size, in);
+                // transfer data of current block: L2 --> ddr (output)
+                dma_trans(outputtemp, B_fixed, BLOCK_CAPACITY * sizeof(float));
+            }
+
+            // process remained data
+            A_fixed = &input[outer_offset + curr_block * BLOCK_CAPACITY];
+            B_fixed = &output[outer_offset + curr_block * BLOCK_CAPACITY];
+            int remain_length = length_per_outer - BLOCK_CAPACITY * curr_block;
+
+            if (remain_length > 0) {
+                dma_trans(B_fixed, outputtemp, remain_length * sizeof(float));
+                fp_div_p(outputtemp, sum_data[sum_outer_offset + in], remain_length, inner_size, in);
+                dma_trans(outputtemp, B_fixed, remain_length * sizeof(float));
+            }
+        }
+    }
+}
+
+void i8_softmax_s(int8_t *input, float *output, float* sum_data,
+                  int* param, int core_mask)
+{
+    int axis = param[0];
+    int n_dim = param[1];
+    int inner_size = param[2];
+    int outter_size = param[3];
+    int axis_size = param[4];
+
+    int length_per_outer = inner_size * axis_size;
+
+    // 【修复1】：将 Block 容量限制在安全范围内，适配 float 的 4 字节膨胀
+    // 32768 元素对应 L2 占用：Input(32KB) + Output(131KB) + Sum(4KB) = 167KB 绝对安全
+    int BLOCK_CAPACITY = 32768;
+
+    int core_id = DNUM;
+    int logic_core_id = GetLogicCoreId(core_mask, core_id);
+    int core_num = GetCoreNum(core_mask);
+
+    // 【修复2】：杜绝硬编码偏移，使用 sizeof() 动态推导连续的 L2 内存，绝不溢出
+    int8_t *inputtemp = (int8_t *)(L2GADDBASE + logic_core_id*L2GADDOFFSET);
+    float *outputtemp = (float *)((char*)inputtemp + BLOCK_CAPACITY * sizeof(int8_t));
+    float *sumdatatemp = (float *)((char*)outputtemp + BLOCK_CAPACITY * sizeof(float));
+
+    int outer_st = outter_size / core_num * logic_core_id;
+    int block_num = length_per_outer / BLOCK_CAPACITY;
+
+    // 尾核任务保护，防止 outter_size 不能被 core_num 整除
+    int outer_num = (logic_core_id == core_num - 1) ? (outter_size - outer_st) : (outter_size / core_num);
+
+    int curr_block;
+    int o = 0, in = 0;
+
+    for(o = 0; o < outer_num; o ++)
+    {
+        int outer_id = outer_st + o;
+        int outer_offset = outer_id * length_per_outer;
+        int sum_outer_offset = outer_id * inner_size;
+
+        for(in = 0; in < inner_size; in ++)
+        {
+            int inner_offset = outer_offset + in;
+
+            // Step 1: get max value
+            float max_data = (float)input[inner_offset];
+            sum_data[sum_outer_offset + in] = 0;
+
+            for(curr_block = 0; curr_block < block_num; curr_block ++)
+            {
+                int8_t* A_fixed = &input[outer_offset + curr_block * BLOCK_CAPACITY];
+                dma_trans(A_fixed, inputtemp, BLOCK_CAPACITY * sizeof(int8_t));
+                float max_temp = i8_max_p(inputtemp, BLOCK_CAPACITY, max_data, inner_size, in);
+                max_data = max_temp > max_data ? max_temp : max_data;
+            }
+
+            int remain_length = length_per_outer - BLOCK_CAPACITY * block_num;
+            if (remain_length > 0) {
+                int8_t* A_fixed = &input[outer_offset + block_num * BLOCK_CAPACITY];
+                dma_trans(A_fixed, inputtemp, remain_length * sizeof(int8_t));
+                float max_temp = i8_max_p(inputtemp, remain_length, max_data, inner_size, in);
+                max_data = max_temp > max_data ? max_temp : max_data;
+            }
+
+            // Step 2: expf and calcu sum
+            for(curr_block = 0; curr_block < block_num; curr_block ++)
+            {
+                int8_t* A_fixed = &input[outer_offset + curr_block * BLOCK_CAPACITY];
+                float* B_fixed = &output[outer_offset + curr_block * BLOCK_CAPACITY];
+
+                dma_trans(A_fixed, inputtemp, BLOCK_CAPACITY * sizeof(int8_t));
+
+                // 【修复3】：在计算当前 in 之前，强制将输出从 DDR 取回 L2！
+                // 这一步完美防止了 L2 的未初始化区域在后续 DMA 写回时覆盖掉 DDR 中其他 in 的正确值
+                dma_trans(B_fixed, outputtemp, BLOCK_CAPACITY * sizeof(float));
+                // 【核心修复】：在每次内核调用前，强制清零 L2 临时累加器！
+                sumdatatemp[in] = 0.0f;
+                i8_expf_p(inputtemp, outputtemp, sumdatatemp, BLOCK_CAPACITY, max_data, inner_size, in);
+
+                dma_trans(outputtemp, B_fixed, BLOCK_CAPACITY * sizeof(float));
+
+                float sum_temp = sumdatatemp[in];
+                sum_data[sum_outer_offset + in] += sum_temp;
+            }
+
+            if (remain_length > 0) {
+                int8_t* A_fixed = &input[outer_offset + block_num * BLOCK_CAPACITY];
+                float* B_fixed = &output[outer_offset + block_num * BLOCK_CAPACITY];
+
+                dma_trans(A_fixed, inputtemp, remain_length * sizeof(int8_t));
+
+                // 【修复3】：同样补充剩余长度的 DDR 取回
+                dma_trans(B_fixed, outputtemp, remain_length * sizeof(float));
+                // 【核心修复】：在每次内核调用前，强制清零 L2 临时累加器！
+                sumdatatemp[in] = 0.0f;
+                i8_expf_p(inputtemp, outputtemp, sumdatatemp, remain_length, max_data, inner_size, in);
+
+                dma_trans(outputtemp, B_fixed, remain_length * sizeof(float));
+
+                float sum_temp = sumdatatemp[in];
+                sum_data[sum_outer_offset + in] += sum_temp;
+            }
+        }
+    }
+
+    // Step 3: div
+    for(o = 0; o < outer_num; o ++)
+    {
+        int outer_id = outer_st + o;
+        int outer_offset = outer_id * length_per_outer;
+        int sum_outer_offset = outer_id * inner_size;
+
+        for(in = 0; in < inner_size; in ++)
+        {
+            for(curr_block = 0; curr_block < block_num; curr_block ++)
+            {
+                float* B_fixed = &output[outer_offset + curr_block * BLOCK_CAPACITY];
+                dma_trans(B_fixed, outputtemp, BLOCK_CAPACITY * sizeof(float));
+                i8_div_p(outputtemp, sum_data[sum_outer_offset + in], BLOCK_CAPACITY, inner_size, in);
+                dma_trans(outputtemp, B_fixed, BLOCK_CAPACITY * sizeof(float));
+            }
+
+            int remain_length = length_per_outer - BLOCK_CAPACITY * block_num;
+            if (remain_length > 0) {
+                float* B_fixed = &output[outer_offset + block_num * BLOCK_CAPACITY];
+                dma_trans(B_fixed, outputtemp, remain_length * sizeof(float));
+                i8_div_p(outputtemp, sum_data[sum_outer_offset + in], remain_length, inner_size, in);
+                dma_trans(outputtemp, B_fixed, remain_length * sizeof(float));
+            }
+        }
+    }
+}
+
 ```
 
-## 目的
-
-本项目将基于tvm框架增加对6678DSP芯片的支持。
-src/target/source下完成对6678的代码生成器支持，目标为生成符合6678指令集的C代码。
-
-# 参考代码：
 ## LSTM 6678实现（含单核、多核）
 ```
 void UpdateState_s(float *cell_state, float *forget_gate, float *input_gate, float *cell_gate,

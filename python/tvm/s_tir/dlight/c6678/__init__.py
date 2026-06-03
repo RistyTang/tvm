@@ -15,13 +15,22 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-"""Namespace of all TIR transformations"""
-# pylint: disable=wildcard-import, invalid-name
+"""C6678 DSP schedule rules.
 
-from .function_pass import prim_func_pass, PrimFuncPass
-from .transform import *
-from .c6678_storage_plan import C6678StoragePlan
-from .c6678_lower_entry import C6678LowerEntry
-from .c6678_multicore_lower import C6678MulticoreLower
-from .c6678_dma_lower import C6678DMALower, C6678AnnotateL2Alloc, C6678AnnotateGlobalAlloc
-from .c6678_dma_legalize import C6678DMALegalize, C6678DMAAlignmentWarning
+本子包按 `s_tir/dlight/cpu` 同构组织：每个 `ScheduleRule`
+通过 `is_target_available` 守卫只在 `target.kind.name == "c6678"` 时生效。
+
+对应路线图 §4.2 的 A.5（专家模板分发器）+ A.6（已有 _p/_s 模板 schedule 化）。
+当前阶段 A.5 proper 已落地：rule 入口（``Matmul``）只负责 normalize + 守卫，
+schedule 主体交给 ``dispatcher.select_template`` 与 ``ScheduleTemplate`` 体系。
+"""
+
+from .dispatcher import (
+    MatmulGemmTemplate,
+    ScheduleTemplate,
+    features_for_func,
+    select_template,
+)
+from .elementwise import ElementGreaterEqual
+from .matmul import Matmul
+from .softmax import Softmax
